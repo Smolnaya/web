@@ -46,9 +46,15 @@ public class DbSqlite implements InitializingBean {
             ResultSet resultSet = stat.executeQuery(query);
             User user = new User();
             user.setId(resultSet.getInt("id"));
-            user.setName(resultSet.getString("name"));
-            user.setNumberPhone(resultSet.getString("phone_number"));
+            user.setNickname(resultSet.getString("nickname"));
+            user.setNumberPhone(resultSet.getString("numberPhone"));
             user.setBirthday(resultSet.getDate("birthday"));
+            user.setElMail(resultSet.getString("elMail"));
+            user.setVk(resultSet.getString("vk"));
+            user.setAboutInf(resultSet.getString("aboutInf"));
+            user.setStudyGroup(resultSet.getString("studyGroup"));
+            user.setHobbyName(resultSet.getString("hobbyName"));
+            user.setHobbyContent(resultSet.getString("hobbyContent"));
             return user;
         } catch (SQLException ex) {
             log.log(Level.WARNING, "Не удалось выполнить запрос", ex);
@@ -57,7 +63,27 @@ public class DbSqlite implements InitializingBean {
     }
 
     public Boolean insertUser(User user) {
-        String query = "insert into USER (name, phone_number, birthday) values ('" + user.getName() + "','" + user.getNumberPhone() + "','" + user.getTimeBirthday() + "');";
+        String query = "insert into USER (name" +
+                ", phone_number" +
+                ", birthday" +
+                ", mail" +
+                ", vk" +
+                ", about" +
+                ", study_group" +
+                ", hobby_name" +
+                ", hobby_content" +
+                ") values " +
+                "('" + user.getNickname()
+                + "','" + user.getNumberPhone()
+                + "','" + user.getBirthday()
+//                + "','" + user.getTimeBirthday()
+                + "','" + user.getElMail()
+                + "','" + user.getVk()
+                + "','" + user.getAboutInf()
+                + "','" + user.getStudyGroup()
+                + "','" + user.getHobbyName()
+                + "','" + user.getHobbyContent()
+                + "');";
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
             return stat.execute(query);

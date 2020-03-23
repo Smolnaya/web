@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница пользователя</title>
+    <link rel="stylesheet" href="css/user.css"/>
+    <script src="js/script.js"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div id="left_header">
+        <p id="user_name"></p>
+    </div>
+    <div id="right_header">
+        <ul>
+            <li id="user_vk"><a href=""><img src="images/vk_icon.png" alt="VK"></a></li>
+        </ul>
+    </div>
+    <div id="sidebar">
+        <label>ID:</label>
+        <p id="user_id"></p>
+        <label>Номер группы:</label>
+        <p id="user_group"></p>
+        <label>Почта:</label>
+        <p id="user_mail"></p>
+        <label>Дата рождения:</label>
+        <p id="user_birth"></p>
+        <label>Номер телефона:</label>
+        <p id="user_phone"></p>
+    </div>
+    <div id="content" style="overflow: auto">
+        <h3>О себе</h3>
+        <p id="user_about"></p>
+        <h3 id="user_hobby_name"></h3>
+        <p id="user_hobby_content"></p>
+    </div>
+    <div class="clearfix"></div>
+    <div id="footer">
+        <label>Введите ID</label>
+        <input type="number" id="input_user_id">
+        <input type="submit" onClick="getUser()" value="Запросить">
+    </div>
+</div>
+</body>
+</html>

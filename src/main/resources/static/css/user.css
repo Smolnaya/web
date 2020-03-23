@@ -1,0 +1,96 @@
+body {
+	background: url(images/bg.jpg) scroll;
+}
+
+#wrapper {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+/*ШАПКА СТРАНИЦЫ*/
+#left_header {
+	width: 600px;
+	height: 100px;
+	margin-bottom: 20px;
+	float: left;
+}
+#right_header {
+	width: 580px;
+	height: 100px;
+	margin-bottom: 20px;
+	float: right;
+}	
+#left_header p {
+	margin-left: 200px;
+	color: black;
+	font-family: "AR Blanca";
+	font-size: 26pt;
+	text-shadow: 0 0 30px red;
+}
+#right_header ul {
+	display: inline;
+    border: 0;
+	list-style-type: none;
+}
+#right_header img {
+	height: 50px;
+	width: 50px;
+	margin: 0 10px;
+	float: right;
+}
+
+/*НАВИГАЦИЯ*/
+#sidebar {
+	width: 180px;
+	float: left;	
+	height: 500px;
+	font-family: Century;
+}
+#sidebar ul {
+	font-size: 16pt;
+	font-weight: normal;
+	list-style-type: none;
+}
+a { 
+    text-decoration: none;
+}
+a:hover { 
+    text-decoration: underline;
+	text-shadow: 0 0 10px red;
+ }
+
+
+/*ОСНОВНАЯ ЧАСТЬ*/
+#content {
+	height: 500px;
+	float: right;
+	width: 1000px;
+}
+#content h3 {
+	text-align: center;
+	font-family: Century;
+	margin-top: 100px;
+}
+#content h4 {
+	text-align: center;
+	font-family: Century;
+}
+#content p {
+	color: black;
+	margin-left: 250px;
+	margin-right: 250px;
+	text-shadow: 0 0 10px red;
+	text-align: center;
+	line-height: 1.5;
+	font-size: 14pt;
+}
+
+/*НИЖНЯЯ ЧАСТЬ*/
+#footer {
+	height: 100px;
+	margin-top: 20px;
+}
+
+.clearfix {
+	clear: both; /*Устанавливает, с какой стороны элемента запрещено его обтекание другими элементами.*/
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="css/regForm.css"/>
+    <script src="js/script.js"></script>
+</head>
+<body>
+<form class="forma">
+    <div class="form-inner">
+        <h3>Регистрация</h3>
+
+        <label>Имя</label>
+        <input type="text" id="input_user_name" required="required">
+
+        <label>Номер телефона</label>
+        <input type="number" id="input_user_number" required="required">
+
+        <label>Дата рождения</label>
+        <input type="date" id="input_user_birthday" required="required">
+
+        <label>Электронная почта</label>
+        <input type="text" id="input_user_mail" required="required">
+
+        <label>Профиль ВК</label>
+        <input type="text" id="input_user_vk" required="required">
+
+        <label>Расскажите о себе</label>
+        <input type="text" id="input_user_about" required="required">
+
+        <label>Номер учебной группы</label>
+        <input type="text" id="input_user_group" required="required">
+
+        <label>Название хобби</label>
+        <input type="text" id="input_user_hobby_name" required="required">
+
+        <label>Расскажите о своем хобби</label>
+        <input type="text" id="input_user_hobby_content" required="required">
+
+        <input type="submit" value="Отправить" onClick="insertUser()">
+
+    </div>
+</form>
+</body>
+</html>

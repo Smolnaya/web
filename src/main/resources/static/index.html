@@ -1,58 +1,16 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <title>Регистрация</title>
+    <meta charset="UTF-8">
+    <title>Куда?</title>
     <link rel="stylesheet" href="css/regForm.css"/>
-    <script type="text/javascript">
-        function getUser() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "api/select/user/by/id");
-            xhr.setRequestHeader("Content-type", "application/json");
-            xhr.onload = (e) => {
-                alert("Получен ответ: " + e.target.response)
-            };
-            var user_id = document.getElementById("input_user_id").value;
-            var params = {"id": user_id};
-            xhr.send(JSON.stringify(params));
-        }
-
-        function insertUser() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "api/select/user/insert/db");
-            xhr.setRequestHeader("Content-type", "application/json");
-            xhr.onload = (e) => {
-                alert("Получен ответ: " + e.target.response)
-            };
-            var user_name = document.getElementById("input_user_name").value;
-            var user_phone = document.getElementById("input_user_number").value;
-            var user_birthday = document.getElementById("input_user_birthday").value;
-            var params = {
-                "name": user_name,
-                "numberPhone": user_phone,
-                "birthday": user_birthday
-            };
-            xhr.send(JSON.stringify(params));
-            alert("Вы зарегистрированы: " + params);
-        }
-    </script>
 </head>
-
 <body>
 <form class="forma">
     <div class="form-inner">
-        <h3>Регистрация</h3>
-
-        <label>Имя</label>
-        <input type="text" id="input_user_name">
-
-        <label>Номер телефона</label>
-        <input type="text" id="input_user_number">
-
-        <label>Дата рождения</label>
-        <input type="date" id="input_user_birthday">
-
-        <input type="submit" value="Отправить" onClick="insertUser()">
+        <label><a href="regForm.html">Регистрация</a></label><br>
+        <label><a href="user.html">Просмотр пользователей</a></label><br>
+        <label><a href="swagger-ui.html">Swagger</a></label>
     </div>
 </form>
 </body>

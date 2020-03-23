@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--страница для проверки-->
+<head>
+    <meta charset="UTF-8">
+    <title>База пользователей</title>
+    <link rel="stylesheet" href="css/serverData.css"/>
+    <script src="js/script.js"></script>
+
+</head>
+<body>
+<form class="forma" id="forma">
+    <div class="form-inner" id="form">
+        <h3>Пользователи</h3>
+
+        <label>Имя</label>
+        <p id="user_name"></p>
+
+        <label>Номер телефона</label>
+        <p id="user_phone"></p>
+
+        <label>Дата рождения</label>
+        <p id="user_birth"></p>
+
+        <label for="input_user_id">Введите id</label>
+        <input type="number" id="input_user_id"  required="required">
+
+        <input type="button" value="Запросить" onClick="getUserLight()">
+    </div>
+</form>
+</body>
+</html>
