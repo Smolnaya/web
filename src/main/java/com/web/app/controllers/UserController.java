@@ -36,7 +36,6 @@ public class UserController {
     @RequestMapping(value = "insert/db", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> insertUser(@RequestBody User user) {
-        System.out.println(user);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(dbSqlite.insertUser(user), headers, HttpStatus.OK);

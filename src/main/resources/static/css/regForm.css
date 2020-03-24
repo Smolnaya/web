@@ -16,6 +16,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
+    border-radius: 20px;
     background: linear-gradient(to right bottom,rgba(43, 44, 78, .5),rgba(104, 22, 96, .5));
 }
 .form-inner {position: relative;}
@@ -49,5 +50,18 @@ body {
     background: rgba(255,255,255,.2);
     font-family: Arial, sans-serif;
 }
+textarea {
+    display: block;
+    width: 100%;
+    padding: 0 15px;
+    margin: 10px 0 15px;
+    border-width: 0;
+    line-height: 40px;
+    border-radius: 20px;
+    color: white;
+    background: rgba(255,255,255,.2);
+    font-family: Arial, sans-serif;
+    resize: none;
+}
 
-.form-inner input[type="submit"] {background: #1762EE;}
+.form-inner input[type="button"] {background: #660099;}
