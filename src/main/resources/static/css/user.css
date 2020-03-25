@@ -1,96 +1,97 @@
 body {
-	background: rosybrown;
+    background: #FFCCCC;
 }
-
 #wrapper {
-	width: 1200px;
-	margin: 0 auto;
+    width: 1200px;
+    margin: 0 auto;
 }
 
 /*ШАПКА СТРАНИЦЫ*/
 #left_header {
-	width: 600px;
-	height: 100px;
-	margin-bottom: 20px;
-	float: left;
+    width: 600px;
+    height: 100px;
+    margin-bottom: 20px;
+    float: left;
 }
 #right_header {
-	width: 580px;
-	height: 100px;
-	margin-bottom: 20px;
-	float: right;
-}	
-#left_header p {
-	margin-left: 200px;
-	color: black;
-	font-family: "AR Blanca";
-	font-size: 26pt;
-	text-shadow: 0 0 30px red;
+    width: 580px;
+    height: 100px;
+    margin-bottom: 20px;
+    float: right;
 }
-#right_header ul {
-	display: inline;
-    border: 0;
-	list-style-type: none;
+#left_header p {
+    margin-left: 100px;
+    font-family: "AR Blanca", sans-serif;
+    font-size: 26pt;
+    text-shadow: 0 0 30px #333399;
 }
 #right_header img {
-	height: 50px;
-	width: 50px;
-	margin: 0 10px;
-	float: right;
+    height: 50px;
+    width: 50px;
+    margin: 0 10px;
+    float: right;
 }
 
 /*НАВИГАЦИЯ*/
 #sidebar {
-	width: 180px;
-	float: left;	
-	height: 500px;
-	font-family: Century;
+    width: 300px;
+    float: left;
+    height: 450px;
+    font-family: Century;
+    padding: 70px 0 0 20px;
+    border-radius: 20px;
+    background: linear-gradient(to top, #FFCCCC, #9999CC);
 }
-#sidebar ul {
-	font-size: 16pt;
-	font-weight: normal;
-	list-style-type: none;
+#sidebar label {
+    margin-left: 10px;
+    font-size: large;
 }
-a { 
-    text-decoration: none;
+#sidebar p {
+    margin-left: 30px;
 }
-a:hover { 
-    text-decoration: underline;
-	text-shadow: 0 0 10px red;
- }
-
 
 /*ОСНОВНАЯ ЧАСТЬ*/
 #content {
-	height: 500px;
-	float: right;
-	width: 1000px;
+    height: 500px;
+    float: right;
+    width: 880px;
 }
 #content h3 {
-	text-align: center;
-	font-family: Century;
-	margin-top: 100px;
-}
-#content h4 {
-	text-align: center;
-	font-family: Century;
+    text-align: center;
+    font-family: Century;
+    margin-top: 20px;
+    text-shadow: 0 0 30px #333399;
 }
 #content p {
-	color: black;
-	margin-left: 250px;
-	margin-right: 250px;
-	text-shadow: 0 0 10px red;
-	text-align: center;
-	line-height: 1.5;
-	font-size: 14pt;
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align: center;
+    line-height: 1.5;
+    font-size: 14pt;
+    text-shadow: 0 0 30px #333399;
 }
 
 /*НИЖНЯЯ ЧАСТЬ*/
 #footer {
-	height: 100px;
-	margin-top: 20px;
+    height: 100px;
+    margin-top: 20px;
+}
+#footer input {
+    padding: 0 15px;
+    margin: 10px 0 15px;
+    border-width: 0;
+    line-height: 40px;
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+}
+input[type="button"] {
+    background: linear-gradient(to top, #FFCCCC, #9999CC);
+}
+input[type="number"] {
+    width: 6%;
+    text-align: center;
 }
 
 .clearfix {
-	clear: both; /*Устанавливает, с какой стороны элемента запрещено его обтекание другими элементами.*/
+    clear: both; /*Устанавливает, с какой стороны элемента запрещено его обтекание другими элементами.*/
 }

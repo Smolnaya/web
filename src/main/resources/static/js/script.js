@@ -47,34 +47,47 @@ function insertUser() {
 }
 
 /*Найти пользователя в базе по ID*/
-function getUser() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "api/select/user/by/id");
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.onload = (e) => {
-        var userData = JSON.parse(e.target.response),
-            userDataName = userData.nickname,
-            userDataNumber = userData.numberPhone,
-            userDataBirth = userData.birthday,
-            userDataMail = userData.elMail,
-            userDataVk = userData.vk,
-            userDataAbout = userData.aboutInf,
-            userDataGroup = userData.studyGroup,
-            userDataHobbyName = userData.hobbyName,
-            userDataGroupHobbyContent = userData.hobbyContent;
-        document.getElementById("user_name").textContent = userDataName;
-        document.getElementById("user_phone").textContent = userDataNumber;
-        document.getElementById("user_birth").textContent = userDataBirth;
-        document.getElementById("user_mail").textContent = userDataMail;
-        document.getElementById("user_vk").textContent = userDataVk;
-        document.getElementById("user_about").textContent = userDataAbout;
-        document.getElementById("user_group").textContent = userDataGroup;
-        document.getElementById("user_hobby_name").textContent = userDataHobbyName;
-        document.getElementById("user_hobby_content").textContent = userDataGroupHobbyContent;
-    };
-    var user_id = document.getElementById("input_user_id").value;
-    var params = {"id": user_id};
-    xhr.send(JSON.stringify(params));
+function getUser(param) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "api/select/user/by/id");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.responseType = "text";
+        xhr.onload = (e) => {
+            var userData = JSON.parse(e.target.response),
+                userDataId = userData.id,
+                userDataName = userData.nickname,
+                userDataNumber = userData.numberPhone,
+                userDataBirth = userData.birthday,
+                userDataMail = userData.elMail,
+                userDataVk = userData.vk,
+                userDataAbout = userData.aboutInf,
+                userDataGroup = userData.studyGroup,
+                userDataHobbyName = userData.hobbyName,
+                userDataGroupHobbyContent = userData.hobbyContent;
+            document.getElementById("user_id").textContent = userDataId;
+            document.getElementById("user_name").textContent = userDataName;
+            document.getElementById("user_phone").textContent = userDataNumber;
+            document.getElementById("user_birth").textContent = userDataBirth;
+            document.getElementById("user_mail").textContent = userDataMail;
+            document.getElementById("user_vk").href = userDataVk;
+            document.getElementById("user_about").textContent = userDataAbout;
+            document.getElementById("user_group").textContent = userDataGroup;
+            document.getElementById("user_hobby_name").textContent = userDataHobbyName;
+            document.getElementById("user_hobby_content").textContent = userDataGroupHobbyContent;
+        };
+    if (param === 1) {
+        var user_id = document.getElementById("input_user_id").value;
+        user_id++;
+        var params = {"id": user_id};
+        xhr.send(JSON.stringify(params));
+        document.getElementById("input_user_id").value = user_id;
+    } else if (param === 2) {
+        var user_id = document.getElementById("input_user_id").value;
+        user_id--;
+        var params = {"id": user_id};
+        xhr.send(JSON.stringify(params));
+        document.getElementById("input_user_id").value = user_id;
+    }
 }
 
 function checkInputNumber() {

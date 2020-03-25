@@ -1,6 +1,6 @@
 * {box-sizing: border-box;}
 body {
-    background: rosybrown;
+    background: #FFCCCC;
 }
 .forma {
     position: relative;
@@ -17,51 +17,46 @@ body {
     right: 0;
     bottom: 0;
     border-radius: 20px;
-    background: linear-gradient(to right bottom,rgba(43, 44, 78, .5),rgba(104, 22, 96, .5));
+    background: linear-gradient(to top, #FFCCCC, #9999CC);
 }
 .form-inner {position: relative;}
-.form-inner h3 {
+h3 {
     position: relative;
     margin-top: 0;
-    color: white;
     font-family: "Roboto", sans-serif;
     font-weight: 300;
     font-size: 26px;
     text-transform: uppercase;
 }
 
-.form-inner label {
-    display: block;
+label {
     padding-left: 15px;
     font-family: Arial, sans-serif;
-    color: rgba(255,255,255,.6);
     text-transform: uppercase;
     font-size: 14px;
 }
-.form-inner input {
-    display: block;
+input {
     width: 100%;
     padding: 0 15px;
     margin: 10px 0 15px;
     border-width: 0;
     line-height: 40px;
     border-radius: 20px;
-    color: white;
     background: rgba(255,255,255,.2);
     font-family: Arial, sans-serif;
 }
 textarea {
-    display: block;
     width: 100%;
     padding: 0 15px;
     margin: 10px 0 15px;
     border-width: 0;
-    line-height: 40px;
+    line-height: 20px;
     border-radius: 20px;
-    color: white;
     background: rgba(255,255,255,.2);
     font-family: Arial, sans-serif;
     resize: none;
 }
 
-.form-inner input[type="button"] {background: #660099;}
+.form-inner input[type="button"] {
+    background: #FF9999;
+}

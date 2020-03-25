@@ -46,15 +46,15 @@ public class DbSqlite implements InitializingBean {
             ResultSet resultSet = stat.executeQuery(query);
             User user = new User();
             user.setId(resultSet.getInt("id"));
-            user.setNickname(resultSet.getString("nickname"));
-            user.setNumberPhone(resultSet.getString("numberPhone"));
+            user.setNickname(resultSet.getString("name"));
+            user.setNumberPhone(resultSet.getString("phone_number"));
             user.setBirthday(resultSet.getDate("birthday"));
-            user.setElMail(resultSet.getString("elMail"));
+            user.setElMail(resultSet.getString("mail"));
             user.setVk(resultSet.getString("vk"));
-            user.setAboutInf(resultSet.getString("aboutInf"));
-            user.setStudyGroup(resultSet.getString("studyGroup"));
-            user.setHobbyName(resultSet.getString("hobbyName"));
-            user.setHobbyContent(resultSet.getString("hobbyContent"));
+            user.setAboutInf(resultSet.getString("about"));
+            user.setStudyGroup(resultSet.getString("study_group"));
+            user.setHobbyName(resultSet.getString("hobby_name"));
+            user.setHobbyContent(resultSet.getString("hobby_content"));
             return user;
         } catch (SQLException ex) {
             log.log(Level.WARNING, "Не удалось выполнить запрос", ex);
@@ -75,8 +75,7 @@ public class DbSqlite implements InitializingBean {
                 ") values " +
                 "('" + user.getNickname()
                 + "','" + user.getNumberPhone()
-                + "','" + user.getBirthday()
-//                + "','" + user.getTimeBirthday()
+                + "','" + user.getTimeBirthday()
                 + "','" + user.getElMail()
                 + "','" + user.getVk()
                 + "','" + user.getAboutInf()
