@@ -76,7 +76,7 @@ body {
     height: 100px;
     margin-top: 20px;
 }
-#footer input {
+input {
     padding: 0 15px;
     margin: 10px 0 15px;
     border-width: 0;

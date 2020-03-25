@@ -13,6 +13,7 @@
     </div>
     <div id="right_header">
         <a href="" id="user_vk"><img src="images/vk_icon.png" alt="VK"></a>
+        <input type="button" value="Регистрация" onclick="window.location='regForm.html'">
     </div>
     <div id="sidebar">
         <label>ID:</label>
@@ -34,11 +35,8 @@
     </div>
     <div class="clearfix"></div>
     <div id="footer">
-        <!--        <label>Введите ID</label>-->
-        <!--        <input type="submit" onClick="getUser()" value="Запросить">-->
-
         <input id="previuos" type="button" onclick="getUser(2)" value="Предыдущий">
-        <input id="input_user_id" type="number" value="1" disabled>
+        <input id="input_user_id" type="number" value="0" disabled>
         <input id="next" type="button" onclick="getUser(1)" value="Следующий">
     </div>
 </div>
