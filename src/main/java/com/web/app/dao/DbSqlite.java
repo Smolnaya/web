@@ -1,10 +1,13 @@
 package com.web.app.dao;
 
+import com.web.app.api.request.UsersIdRequest;
 import com.web.app.dao.model.User;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,6 +42,34 @@ public class DbSqlite implements InitializingBean {
         }
     }
 
+    /*
+    Получить список всех ID в БД
+    Возвращает UsersIdRequest
+     */
+    public UsersIdRequest getUsersId() {
+        String query = "select ID from USER";
+        System.out.println(query);
+        UsersIdRequest idList = new UsersIdRequest();
+        List<Integer> list = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+             Statement stat = conn.createStatement()) {
+            ResultSet resultSet = stat.executeQuery(query);
+            while (resultSet.next()) {
+                list.add(resultSet.getInt("ID"));
+            }
+            idList.setListId(list);
+            return idList;
+        } catch (SQLException ex) {
+            log.log(Level.WARNING, "Не удалось выполнить запрос", ex);
+            return new UsersIdRequest();
+        }
+    }
+
+    /*
+    Выбрать пользователя по ID
+    Принимает параметр ID
+    Возвращает User
+     */
     public User selectUserById(int id) {
         String query = "select * from USER where id = " + id;
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
@@ -62,8 +93,12 @@ public class DbSqlite implements InitializingBean {
         }
     }
 
+    /*
+    Добавить пользователя в БД
+    Принимает User
+     */
     public Boolean insertUser(User user) {
-        String query = "insert into USER (name" +
+        StringBuilder query = new StringBuilder("insert into USER (name" +
                 ", phone_number" +
                 ", birthday" +
                 ", mail" +
@@ -82,10 +117,10 @@ public class DbSqlite implements InitializingBean {
                 + "','" + user.getStudyGroup()
                 + "','" + user.getHobbyName()
                 + "','" + user.getHobbyContent()
-                + "');";
+                + "');");
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
-            return stat.execute(query);
+            return stat.execute(query.toString());
         } catch (SQLException ex) {
             log.log(Level.WARNING, "Не удалось добавить пользователя", ex);
             return null;

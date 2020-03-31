@@ -70,7 +70,5 @@ public class User {
         this.numberPhone = numberPhone;
     }
 
-    public Long getTimeBirthday() {
-        return birthday.getTime();
-    }
+    public Long getTimeBirthday() { return birthday.getTime(); }
 }

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/user.css"/>
     <script src="js/script.js"></script>
 </head>
-<body>
+<body onload="getId()">
 <div id="wrapper">
     <div id="left_header">
         <p id="user_name"></p>
@@ -36,7 +36,7 @@
     <div class="clearfix"></div>
     <div id="footer">
         <input id="previuos" type="button" onclick="getUser(2)" value="Предыдущий">
-        <input id="input_user_id" type="number" value="0" disabled>
+        <select id="ids" disabled></select>
         <input id="next" type="button" onclick="getUser(1)" value="Следующий">
     </div>
 </div>
