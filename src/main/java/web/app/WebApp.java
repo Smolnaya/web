@@ -1,6 +1,5 @@
-package com.web.app;
+package web.app;
 
-import com.web.app.dao.DbSqlite;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

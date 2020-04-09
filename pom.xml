@@ -90,7 +90,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.web.app.WebApp</mainClass>
+                            <mainClass>web.app.WebApp</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Class-Path>.</Class-Path>

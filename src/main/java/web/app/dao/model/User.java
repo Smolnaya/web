@@ -1,4 +1,4 @@
-package com.web.app.dao.model;
+package web.app.dao.model;
 
 import java.util.Date;
 

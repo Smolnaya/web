@@ -1,4 +1,4 @@
-package com.web.app.api.request;
+package web.app.api.request;
 
 import java.util.ArrayList;
 import java.util.List;

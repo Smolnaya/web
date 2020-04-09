@@ -1,7 +1,7 @@
-package com.web.app.dao;
+package web.app.dao;
 
-import com.web.app.api.request.UsersIdRequest;
-import com.web.app.dao.model.User;
+import web.app.api.request.UsersIdRequest;
+import web.app.dao.model.User;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 @Service
 public class DbSqlite implements InitializingBean {
     private Logger log = Logger.getLogger(getClass().getName());
-
     private String dbPath = "webapp.db";
 
     @Override
@@ -98,26 +97,26 @@ public class DbSqlite implements InitializingBean {
     Принимает User
      */
     public Boolean insertUser(User user) {
-        StringBuilder query = new StringBuilder("insert into USER (name" +
-                ", phone_number" +
-                ", birthday" +
-                ", mail" +
-                ", vk" +
-                ", about" +
-                ", study_group" +
-                ", hobby_name" +
-                ", hobby_content" +
-                ") values " +
-                "('" + user.getNickname()
-                + "','" + user.getNumberPhone()
-                + "','" + user.getTimeBirthday()
-                + "','" + user.getElMail()
-                + "','" + user.getVk()
-                + "','" + user.getAboutInf()
-                + "','" + user.getStudyGroup()
-                + "','" + user.getHobbyName()
-                + "','" + user.getHobbyContent()
-                + "');");
+        StringBuilder query = new StringBuilder();
+        query.append("insert into USER (name, phone_number, birthday, mail, vk, about, study_group, hobby_name, hobby_content) values ('")
+                .append(user.getNickname())
+                .append("','")
+                .append(user.getNumberPhone())
+                .append("','")
+                .append(user.getTimeBirthday())
+                .append("','")
+                .append(user.getElMail())
+                .append("','")
+                .append(user.getVk())
+                .append("','")
+                .append(user.getAboutInf())
+                .append("','")
+                .append(user.getStudyGroup())
+                .append("','")
+                .append(user.getHobbyName())
+                .append("','")
+                .append(user.getHobbyContent())
+                .append("');");
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
             return stat.execute(query.toString());

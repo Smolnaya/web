@@ -1,4 +1,4 @@
-package com.web.app.api.request;
+package web.app.api.request;
 
 public class UserByIdRequest {
     private Integer id;

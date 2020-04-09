@@ -1,4 +1,4 @@
-package com.web.app.config;
+package web.app.config;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
