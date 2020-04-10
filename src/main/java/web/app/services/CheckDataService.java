@@ -11,13 +11,14 @@ import java.util.regex.Pattern;
 
 public class CheckDataService {
     private Logger log = Logger.getLogger(getClass().getName());
+
     public CheckDataService() {
     }
 
     public boolean checkInputData(User user) {
         if (checkInputNumber(user.getNumberPhone()) && checkInputBirth(user.getBirthday())
-            && checkInputMail(user.getElMail()) && checkInputVk(user.getVk())
-            && checkNonEmptyData(user.getNickname(), user.getAboutInf(), user.getStudyGroup(), user.getHobbyName(), user.getHobbyContent())) {
+                && checkInputMail(user.getElMail()) && checkInputVk(user.getVk())
+                && checkNonEmptyData(user.getNickname(), user.getAboutInf(), user.getStudyGroup(), user.getHobbyName(), user.getHobbyContent())) {
             return true;
         } else return false;
     }
@@ -42,7 +43,7 @@ public class CheckDataService {
         }
     }
 
-    public boolean checkInputMail (String email) {
+    public boolean checkInputMail(String email) {
         Pattern p = Pattern.compile("^[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,4}$");
         Matcher m = p.matcher(email);
         if (!m.matches()) {
@@ -52,7 +53,7 @@ public class CheckDataService {
     }
 
     public boolean checkInputVk(String vk) {
-        Pattern p = Pattern.compile("^https://vk.com/.*");
+        Pattern p = Pattern.compile("^https://vk\\.com/.*");
         Matcher m = p.matcher(vk);
         if (!m.matches()) {
             log.log(Level.WARNING, "checkInputVk: false");
@@ -61,8 +62,12 @@ public class CheckDataService {
     }
 
     public boolean checkNonEmptyData(String name, String about, String group, String hobby_name, String hobby_content) {
-        if (name.trim() != "" && about.trim() != "" && group.trim() != "" && hobby_name.trim() != ""
-                && hobby_content.trim() != "") return true;
+        if (name != null && !name.trim().isEmpty() &&
+                about != null && !about.trim().isEmpty() &&
+                group != null && !group.trim().isEmpty() &&
+                hobby_name != null && !hobby_name.trim().isEmpty() &&
+                hobby_content != null && !hobby_content.trim().isEmpty())
+            return true;
         else {
             log.log(Level.WARNING, "checkNonEmptyData: false");
             return false;
