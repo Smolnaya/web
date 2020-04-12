@@ -38,66 +38,38 @@ public class DbSqlite implements InitializingBean {
         }
     }
 
+    private final String selectFirst = "select * from USER LIMIT 1";
+    private final String selectNext = "select * from USER where ID > %s limit 1";
+    private final String selectPrevious = "select * from USER where ID < %s order by ID desc limit 1";
+
     /*
     Выбрать первого пользователя в БД
      */
-    private final String selectFirst = "select * from USER LIMIT 1";
     public User selectFirstUser() {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-             Statement stat = conn.createStatement()) {
-            ResultSet resultSet = stat.executeQuery(selectFirst);
-            User user = new User();
-            user.setId(resultSet.getInt("id"));
-            user.setNickname(resultSet.getString("name"));
-            user.setNumberPhone(resultSet.getString("phone_number"));
-            user.setBirthday(resultSet.getDate("birthday"));
-            user.setElMail(resultSet.getString("mail"));
-            user.setVk(resultSet.getString("vk"));
-            user.setAboutInf(resultSet.getString("about"));
-            user.setStudyGroup(resultSet.getString("study_group"));
-            user.setHobbyName(resultSet.getString("hobby_name"));
-            user.setHobbyContent(resultSet.getString("hobby_content"));
-            return user;
-        } catch (SQLException ex) {
-            log.log(Level.WARNING, "Не удалось выполнить запрос", ex);
-            return new User();
-        }
+        User user = getUser(selectFirst, 0);
+        return user;
     }
 
     /*
     Выбрать следующего пользователя в БД
      */
-    private final String selectNext = "select * from USER where ID > %s limit 1";
     public User selectNextUser(int id) {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-             Statement stat = conn.createStatement()) {
-            ResultSet resultSet = stat.executeQuery(String.format(selectNext, id));
-            User user = new User();
-            user.setId(resultSet.getInt("id"));
-            user.setNickname(resultSet.getString("name"));
-            user.setNumberPhone(resultSet.getString("phone_number"));
-            user.setBirthday(resultSet.getDate("birthday"));
-            user.setElMail(resultSet.getString("mail"));
-            user.setVk(resultSet.getString("vk"));
-            user.setAboutInf(resultSet.getString("about"));
-            user.setStudyGroup(resultSet.getString("study_group"));
-            user.setHobbyName(resultSet.getString("hobby_name"));
-            user.setHobbyContent(resultSet.getString("hobby_content"));
-            return user;
-        } catch (SQLException ex) {
-            log.log(Level.WARNING, "Не удалось выполнить запрос", ex);
-            return new User();
-        }
+        User user = getUser(selectNext, id);
+        return user;
     }
 
     /*
     Выбрать предыдущего пользователя в БД
      */
-    private final String selectPrevious = "select * from USER where ID < %s order by ID desc limit 1";
     public User selectPreviousUser(int id) {
+        User user = getUser(selectPrevious, id);
+        return user;
+    }
+
+    public User getUser(String query, int id) {
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
-            ResultSet resultSet = stat.executeQuery(String.format(selectPrevious, id));
+            ResultSet resultSet = stat.executeQuery(String.format(query, id));
             User user = new User();
             user.setId(resultSet.getInt("id"));
             user.setNickname(resultSet.getString("name"));
@@ -121,29 +93,12 @@ public class DbSqlite implements InitializingBean {
     Принимает User
      */
     public Boolean insertUser(User user) {
-        StringBuilder query = new StringBuilder();
-        query.append("insert into USER (name, phone_number, birthday, mail, vk, about, study_group, hobby_name, hobby_content) values ('")
-                .append(user.getNickname())
-                .append("','")
-                .append(user.getNumberPhone())
-                .append("','")
-                .append(user.getTimeBirthday())
-                .append("','")
-                .append(user.getElMail())
-                .append("','")
-                .append(user.getVk())
-                .append("','")
-                .append(user.getAboutInf())
-                .append("','")
-                .append(user.getStudyGroup())
-                .append("','")
-                .append(user.getHobbyName())
-                .append("','")
-                .append(user.getHobbyContent())
-                .append("');");
+        String query = "insert into USER (name, phone_number, birthday, mail, vk, about, study_group, hobby_name, hobby_content) " +
+                "values ('%s','%s','%s','%s','%s','%s','%s','%s','%s');";
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
-            return stat.execute(query.toString());
+            return stat.execute(String.format(query, user.getNickname(), user.getNumberPhone(), user.getTimeBirthday(),
+                    user.getElMail(), user.getVk(), user.getAboutInf(), user.getStudyGroup(), user.getHobbyName(), user.getHobbyContent()));
         } catch (SQLException ex) {
             log.log(Level.WARNING, "Не удалось добавить пользователя", ex);
             return false;
