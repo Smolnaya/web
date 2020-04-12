@@ -1,7 +1,11 @@
-* {box-sizing: border-box;}
-body {
-    background: #FFCCCC;
+* {
+    box-sizing: border-box;
 }
+
+body {
+    background: url("../images/bg.jpg");
+}
+
 .forma {
     position: relative;
     max-width: 400px;
@@ -9,6 +13,7 @@ body {
     margin: 50px auto 0;
     background-size: cover;
 }
+
 .forma:before {
     content: "";
     position: absolute;
@@ -17,9 +22,13 @@ body {
     right: 0;
     bottom: 0;
     border-radius: 20px;
-    background: linear-gradient(to top, #FFCCCC, #9999CC);
+    background: linear-gradient(to top, #9999ccb0, #FFCCCC);
 }
-.form-inner {position: relative;}
+
+.form-inner {
+    position: relative;
+}
+
 h3 {
     position: relative;
     margin-top: 0;
@@ -35,6 +44,7 @@ label {
     text-transform: uppercase;
     font-size: 14px;
 }
+
 input {
     width: 100%;
     padding: 0 15px;
@@ -42,9 +52,11 @@ input {
     border-width: 0;
     line-height: 40px;
     border-radius: 20px;
-    background: rgba(255,255,255,.2);
+    background: rgba(255, 255, 255, .2);
     font-family: Arial, sans-serif;
+    outline: none;
 }
+
 textarea {
     width: 100%;
     padding: 0 15px;
@@ -52,11 +64,12 @@ textarea {
     border-width: 0;
     line-height: 20px;
     border-radius: 20px;
-    background: rgba(255,255,255,.2);
+    background: rgba(255, 255, 255, .2);
     font-family: Arial, sans-serif;
     resize: none;
+    outline: none;
 }
 
 .form-inner input[type="button"] {
-    background: #FF9999;
+    background: #ffccccd4;
 }

@@ -6,15 +6,15 @@
     <link rel="stylesheet" href="css/user.css"/>
     <script src="js/script.js"></script>
 </head>
-<body onload="getId()">
+<body onload="init()">
 <div id="wrapper">
     <div id="left_header">
         <p id="user_name"></p>
     </div>
     <div id="right_header">
         <a href="" id="user_vk"><img src="images/vk_icon.png" alt="VK"></a>
-        <input type="button" value="Регистрация" onclick="window.location='regForm.html'">
     </div>
+    <div class="clearfix"></div>
     <div id="sidebar">
         <label>ID:</label>
         <p id="user_id"></p>
@@ -35,9 +35,9 @@
     </div>
     <div class="clearfix"></div>
     <div id="footer">
-        <input id="previuos" type="button" onclick="getUser(2)" value="Предыдущий">
-        <select id="ids" disabled></select>
-        <input id="next" type="button" onclick="getUser(1)" value="Следующий">
+        <input id="previuos" type="button" onclick="getPreviousUser()" value="Предыдущий">
+        <input id="next" type="button" onclick="getNextUser()" value="Следующий"><br>
+        <input id="regButton" type="button" value="Регистрация" onclick="window.location='regForm.html'">
     </div>
 </div>
 </body>

@@ -1,103 +1,7 @@
-/*Добавить пользователя в БД*/
-function insertUser() {
-    if (checkNonEmptyData() && checkInputNumber() && checkInputBirth() && checkInputMail() && checkInputVk()) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "api/select/user/insert/db");
-        xhr.setRequestHeader("Content-type", "application/json");
-        var user_name = document.getElementById("input_user_name").value;
-        var user_birthday = document.getElementById("input_user_birthday").value;
-        var user_phone = document.getElementById("input_user_number").value;
-        var user_mail = document.getElementById("input_user_mail").value;
-        var user_vk = document.getElementById("input_user_vk").value;
-        var user_about = document.getElementById("input_user_about").value;
-        var user_group = document.getElementById("input_user_group").value;
-        var user_hobby_name = document.getElementById("input_user_hobby_name").value;
-        var user_hobby_content = document.getElementById("input_user_hobby_content").value;
-        var params = {
-            "nickname": user_name,
-            "numberPhone": user_phone,
-            "birthday": user_birthday,
-            "elMail": user_mail,
-            "vk": user_vk,
-            "aboutInf": user_about,
-            "studyGroup": user_group,
-            "hobbyName": user_hobby_name,
-            "hobbyContent": user_hobby_content
-        };
-        xhr.send(JSON.stringify(params));
-        alert("Вы зарегистрированы!");
-        document.getElementById("forma").submit();
-    } else {
-        if (!checkNonEmptyData()) {
-            alert("Не все поля заполнены :(")
-        }
-        if (!checkInputNumber()) {
-            alert("Неккоректный номер :( \nВведите номер без букв")
-        }
-        if (!checkInputBirth()) {
-            alert("Неккоректная дата рождения :(")
-        }
-        if (!checkInputMail()) {
-            alert("Неккоректная почта :( \nВведите почту в формате: somebody@domen.ru")
-        }
-        if (!checkInputVk()) {
-            alert("Неккоректная ссылка VK :( \nВведите ссылку в формате: https://vk.com/somebody")
-        }
-    }
-}
-
-/*
-Создать в Select id="ids" список со всеми существующими ID в БД
- */
-function getId() {
+function init() {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "api/select/user/get/id");
+    xhr.open("POST", "api/select/first/user");
     xhr.setRequestHeader("Content-type", "application/json");
-    xhr.send();
-    xhr.onload = (e) => {
-        var listId = JSON.parse(e.target.response);
-        var id = listId.listId;
-        for (var i = 0; i < id.length; i++) {
-            var newOption = new Option(id[i], id[i]);
-            document.getElementById("ids").append(newOption);
-        }
-    }
-}
-
-/*
-Заполнить страницу данными о пользователе
-param = 1 -> шаг вперед по списку с ID
-param = 2 -> шаг назад по списку с ID
- */
-function getUser(param) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "api/select/user/by/id");
-    xhr.setRequestHeader("Content-type", "application/json");
-    var length = document.getElementById("ids").length;
-    var index = document.getElementById("ids").selectedIndex;
-    if (param === 1) {
-        if (index !== -1) {
-            var user_id = document.getElementById("ids").value;
-            var params = {"id": user_id};
-            xhr.send(JSON.stringify(params));
-        }
-        if (index === length - 1) {
-            alert("Это последний пользователь.");
-        } else if (index < length - 1) {
-            document.getElementById("ids").selectedIndex++;
-        }
-    } else if (param === 2) {
-        if (document.getElementById("ids").selectedIndex !== -1) {
-            var user_id = document.getElementById("ids").value;
-            var params = {"id": user_id};
-            xhr.send(JSON.stringify(params));
-        }
-        if (document.getElementById("ids").selectedIndex === 0) {
-            alert("Это первый пользователь.")
-        } else if (document.getElementById("ids").selectedIndex > 0) {
-            document.getElementById("ids").selectedIndex--;
-        }
-    }
     xhr.onload = (e) => {
         var user = JSON.parse(e.target.response),
             userDataId = user.id,
@@ -121,6 +25,121 @@ function getUser(param) {
         document.getElementById("user_hobby_name").textContent = userDataHobbyName;
         document.getElementById("user_hobby_content").textContent = userDataGroupHobbyContent;
     };
+    xhr.send();
+}
+
+/*
+Следующий пользователь
+ */
+function getNextUser() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "api/select/next/user");
+    xhr.setRequestHeader("Content-type", "application/json");
+    var user_id = document.getElementById("user_id").textContent;
+    var params = {"id": user_id};
+    xhr.send(JSON.stringify(params));
+    xhr.onload = (e) => {
+        var user = JSON.parse(e.target.response);
+        if (user.id != null) {
+            document.getElementById("user_id").textContent = user.id;
+            document.getElementById("user_name").textContent = user.nickname;
+            document.getElementById("user_phone").textContent = user.numberPhone;
+            document.getElementById("user_birth").textContent = user.birthday;
+            document.getElementById("user_mail").textContent = user.elMail;
+            document.getElementById("user_vk").href = user.vk;
+            document.getElementById("user_about").textContent = user.aboutInf;
+            document.getElementById("user_group").textContent = user.studyGroup;
+            document.getElementById("user_hobby_name").textContent = user.hobbyName;
+            document.getElementById("user_hobby_content").textContent = user.hobbyContent;
+        } else {
+            alert("Конец списка пользователей");
+        }
+    };
+}
+
+/*
+Предыдущий пользователь
+ */
+function getPreviousUser() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "api/select/previous/user");
+    xhr.setRequestHeader("Content-type", "application/json");
+    var user_id = document.getElementById("user_id").textContent;
+    var params = {"id": user_id};
+    xhr.send(JSON.stringify(params));
+    xhr.onload = (e) => {
+        var user = JSON.parse(e.target.response);
+        if (user.id != null) {
+            document.getElementById("user_id").textContent = user.id;
+            document.getElementById("user_name").textContent = user.nickname;
+            document.getElementById("user_phone").textContent = user.numberPhone;
+            document.getElementById("user_birth").textContent = user.birthday;
+            document.getElementById("user_mail").textContent = user.elMail;
+            document.getElementById("user_vk").href = user.vk;
+            document.getElementById("user_about").textContent = user.aboutInf;
+            document.getElementById("user_group").textContent = user.studyGroup;
+            document.getElementById("user_hobby_name").textContent = user.hobbyName;
+            document.getElementById("user_hobby_content").textContent = user.hobbyContent;
+        } else {
+            alert("Начало списка пользователей");
+        }
+    };
+}
+
+/*Добавить пользователя в БД*/
+function insertUser() {
+    if (checkNonEmptyData() && checkInputNumber() && checkInputBirth() && checkInputMail() && checkInputVk()) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "api/insert/user");
+        xhr.setRequestHeader("Content-type", "application/json");
+        var user_name = document.getElementById("input_user_name").value;
+        var user_birthday = document.getElementById("input_user_birthday").value;
+        var user_phone = document.getElementById("input_user_number").value;
+        var user_mail = document.getElementById("input_user_mail").value;
+        var user_vk = document.getElementById("input_user_vk").value;
+        var user_about = document.getElementById("input_user_about").value;
+        var user_group = document.getElementById("input_user_group").value;
+        var user_hobby_name = document.getElementById("input_user_hobby_name").value;
+        var user_hobby_content = document.getElementById("input_user_hobby_content").value;
+        var params = {
+            "nickname": user_name,
+            "numberPhone": user_phone,
+            "birthday": user_birthday,
+            "elMail": user_mail,
+            "vk": user_vk,
+            "aboutInf": user_about,
+            "studyGroup": user_group,
+            "hobbyName": user_hobby_name,
+            "hobbyContent": user_hobby_content
+        };
+        xhr.send(JSON.stringify(params));
+        xhr.onload = (e) => {
+            if (xhr.status === 200) {
+                alert("Вы зарегистрированы!");
+                document.getElementById("forma").submit();
+            } else if (xhr.status === 400) {
+                alert("Не верные данные" + e.target.response);
+            } else {
+                alert("Повторите попытку");
+            }
+        }
+    } else {
+        if (!checkNonEmptyData()) {
+            alert("Не все поля заполнены :(")
+        }
+        if (!checkInputNumber()) {
+            alert("Неккоректный номер :( \nВведите номер без букв")
+        }
+        if (!checkInputBirth()) {
+            alert("Неккоректная дата рождения :(")
+        }
+        if (!checkInputMail()) {
+            alert("Неккоректная почта :( \nВведите почту в формате: somebody@domen.ru")
+        }
+        if (!checkInputVk()) {
+            alert("Неккоректная ссылка VK :( \nВведите ссылку в формате: https://vk.com/somebody")
+        }
+    }
 }
 
 /*
@@ -175,10 +194,10 @@ function checkInputVk() {
 Проверка полей на заполненность
  */
 function checkNonEmptyData() {
-    if (document.getElementById("input_user_name").value.trim() !== "" ||
-        document.getElementById("input_user_about").value.trim() !== "" ||
-        document.getElementById("input_user_group").value.trim() !== "" ||
-        document.getElementById("input_user_hobby_name").value.trim() !== "" ||
+    if (document.getElementById("input_user_name").value.trim() !== "" &&
+        document.getElementById("input_user_about").value.trim() !== "" &&
+        document.getElementById("input_user_group").value.trim() !== "" &&
+        document.getElementById("input_user_hobby_name").value.trim() !== "" &&
         document.getElementById("input_user_hobby_content").value.trim() !== "") {
         return true;
     }

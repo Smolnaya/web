@@ -1,6 +1,7 @@
 body {
-    background: #FFCCCC;
+    background: url("../images/bg.jpg");
 }
+
 #wrapper {
     width: 1200px;
     margin: 0 auto;
@@ -13,22 +14,25 @@ body {
     margin-bottom: 20px;
     float: left;
 }
+
 #right_header {
     width: 580px;
     height: 100px;
     margin-bottom: 20px;
     float: right;
 }
+
 #left_header p {
     margin-left: 100px;
     font-family: "AR Blanca", sans-serif;
     font-size: 26pt;
     text-shadow: 0 0 30px #333399;
 }
+
 #right_header img {
-    height: 50px;
-    width: 50px;
-    margin: 0 10px;
+    height: 60px;
+    width: 60px;
+    margin: 20px 10px;
     float: right;
 }
 
@@ -40,12 +44,14 @@ body {
     font-family: Century;
     padding: 70px 0 0 20px;
     border-radius: 20px;
-    background: linear-gradient(to top, #FFCCCC, #9999CC);
+    background: linear-gradient(to top, #9999cc50, #ffccccd4);
 }
+
 #sidebar label {
     margin-left: 10px;
     font-size: large;
 }
+
 #sidebar p {
     margin-left: 30px;
 }
@@ -56,12 +62,14 @@ body {
     float: right;
     width: 880px;
 }
+
 #content h3 {
     text-align: center;
     font-family: Century;
     margin-top: 20px;
     text-shadow: 0 0 30px #333399;
 }
+
 #content p {
     margin-left: 50px;
     margin-right: 50px;
@@ -76,20 +84,22 @@ body {
     height: 100px;
     margin-top: 20px;
 }
+
 input {
-    padding: 0 15px;
+    padding: 0 40px;
     margin: 10px 0 15px;
     border-width: 0;
     line-height: 40px;
     border-radius: 20px;
     font-family: Arial, sans-serif;
 }
+
 input[type="button"] {
-    background: linear-gradient(to top, #FFCCCC, #9999CC);
+    background: linear-gradient(to top, #9999cc50, #ffccccd4);
 }
-input[type="number"] {
-    width: 6%;
-    text-align: center;
+
+#regButton {
+    padding: 0 120px;
 }
 
 .clearfix {

@@ -1,7 +1,6 @@
 package web.app.controllers;
 
 import web.app.api.request.UserByIdRequest;
-import web.app.api.request.UsersIdRequest;
 import web.app.dao.DbSqlite;
 import web.app.dao.model.User;
 import io.swagger.annotations.ApiOperation;
@@ -17,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import web.app.services.CheckDataService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
-@RequestMapping(value = "/api/select/user")
+@RequestMapping(value = "/api/")
 public class UserController {
     private final DbSqlite dbSqlite;
 
@@ -26,38 +28,46 @@ public class UserController {
         this.dbSqlite = dbSqlite;
     }
 
-    @ApiOperation(value = "Получить все ID в базе данных")
-    @RequestMapping(value = "get/id", method = RequestMethod.POST,
+    @ApiOperation(value = "Первый пользователь")
+    @RequestMapping(value = "select/first/user", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UsersIdRequest> getUsersId() {
-        UsersIdRequest listId = dbSqlite.getUsersId();
+    public ResponseEntity<User> selectFirstUser() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<>(listId, headers, HttpStatus.OK);
+        return new ResponseEntity<>(dbSqlite.selectFirstUser(), headers, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Выборка пользователя по id")
-    @RequestMapping(value = "by/id", method = RequestMethod.POST,
+    @ApiOperation(value = "Следующий пользователь")
+    @RequestMapping(value = "select/next/user", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> selectUserById(@RequestBody UserByIdRequest id) {
-        User user = dbSqlite.selectUserById(id.getId());
+    public ResponseEntity<User> selectNextUser(@RequestBody UserByIdRequest id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<>(user, headers, HttpStatus.OK);
+        return new ResponseEntity<>(dbSqlite.selectNextUser(id.getId()), headers, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Предыдущий пользователь")
+    @RequestMapping(value = "select/previous/user", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> selectPreviousUser(@RequestBody UserByIdRequest id) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<>(dbSqlite.selectPreviousUser(id.getId()), headers, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Добавить пользователя")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = User.class),
-            @ApiResponse(code = 400, message = "Ошибка входных данных")})
-    @RequestMapping(value = "insert/db", method = RequestMethod.POST,
+            @ApiResponse(code = 200, message = "OK", response = Boolean.class),
+            @ApiResponse(code = 400, message = "Ошибка входных данных", response = List.class)})
+    @RequestMapping(value = "insert/user", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> checkUser(@RequestBody User user) {
+    public ResponseEntity<Object> checkUser(@RequestBody User user) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         CheckDataService checkDataService = new CheckDataService();
-        if (checkDataService.checkInputData(user)) {
+        List<String> errors = new ArrayList<>(checkDataService.checkInputData(user));
+        if (errors.isEmpty()) {
             return new ResponseEntity<>(dbSqlite.insertUser(user), headers, HttpStatus.OK);
-        } else return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity<>(errors, headers, HttpStatus.BAD_REQUEST);
     }
 }
