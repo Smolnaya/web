@@ -1,6 +1,7 @@
 package web.app.dao.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
     private Integer id;
@@ -13,6 +14,24 @@ public class User {
     private String studyGroup;
     private String hobbyName;
     private String hobbyContent;
+    private String gender;
+    private String education;
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public String getElMail() { return elMail; }
 

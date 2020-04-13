@@ -20,9 +20,9 @@ public class CheckDataService {
         if(!checkInputMail(user.getElMail()).isEmpty()) errors.add(checkInputMail(user.getElMail()));
         if(!checkInputVk(user.getVk()).isEmpty()) errors.add(checkInputVk(user.getVk()));
         if(!checkNonEmptyData(user.getNickname(), user.getAboutInf(), user.getStudyGroup(),
-                user.getHobbyName(), user.getHobbyContent()).isEmpty())
+                user.getHobbyName(), user.getHobbyContent(), user.getEducation()).isEmpty())
             errors.addAll(checkNonEmptyData(user.getNickname(), user.getAboutInf(), user.getStudyGroup(),
-                user.getHobbyName(), user.getHobbyContent()));
+                user.getHobbyName(), user.getHobbyContent(), user.getEducation()));
         return errors;
     }
 
@@ -71,23 +71,14 @@ public class CheckDataService {
         return error;
     }
 
-    public List<String> checkNonEmptyData(String name, String about, String group, String hobby_name, String hobby_content) {
+    public List<String> checkNonEmptyData(String name, String about, String group, String hobby_name, String hobby_content, String education) {
         List<String> errors = new ArrayList<>();
-        if (name == null || name.trim().isEmpty()) {
-            errors.add("Имя не указано");
-        }
-        if (about == null || about.trim().isEmpty()) {
-            errors.add("Информация о себе не заполнена");
-        }
-        if (group == null || group.trim().isEmpty()) {
-            errors.add("Номер группы не указан");
-        }
-        if (hobby_name == null || hobby_name.trim().isEmpty()) {
-            errors.add("Название хобби не указано");
-        }
-        if (hobby_content == null || hobby_content.trim().isEmpty()) {
-            errors.add("Информация о хобби не заполнена");
-        }
+        if (name == null || name.trim().isEmpty())  errors.add("Имя не указано");
+        if (about == null || about.trim().isEmpty()) errors.add("Информация о себе не заполнена");
+        if (group == null || group.trim().isEmpty()) errors.add("Номер группы не указан");
+        if (hobby_name == null || hobby_name.trim().isEmpty()) errors.add("Название хобби не указано");
+        if (hobby_content == null || hobby_content.trim().isEmpty()) errors.add("Информация о хобби не заполнена");
+        if (education == null || education.trim().isEmpty()) errors.add("Информация об образовании не заполнена");
         return errors;
     }
 }

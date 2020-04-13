@@ -24,6 +24,8 @@ function init() {
         document.getElementById("user_group").textContent = userDataGroup;
         document.getElementById("user_hobby_name").textContent = userDataHobbyName;
         document.getElementById("user_hobby_content").textContent = userDataGroupHobbyContent;
+        document.getElementById("user_gender").textContent = user.gender;
+        document.getElementById("user_education").textContent = user.education;
     };
     xhr.send();
 }
@@ -51,6 +53,8 @@ function getNextUser() {
             document.getElementById("user_group").textContent = user.studyGroup;
             document.getElementById("user_hobby_name").textContent = user.hobbyName;
             document.getElementById("user_hobby_content").textContent = user.hobbyContent;
+            document.getElementById("user_gender").textContent = user.gender;
+            document.getElementById("user_education").textContent = user.education;
         } else {
             alert("Конец списка пользователей");
         }
@@ -80,6 +84,8 @@ function getPreviousUser() {
             document.getElementById("user_group").textContent = user.studyGroup;
             document.getElementById("user_hobby_name").textContent = user.hobbyName;
             document.getElementById("user_hobby_content").textContent = user.hobbyContent;
+            document.getElementById("user_gender").textContent = user.gender;
+            document.getElementById("user_education").textContent = user.education;
         } else {
             alert("Начало списка пользователей");
         }
@@ -101,6 +107,9 @@ function insertUser() {
         var user_group = document.getElementById("input_user_group").value;
         var user_hobby_name = document.getElementById("input_user_hobby_name").value;
         var user_hobby_content = document.getElementById("input_user_hobby_content").value;
+        var selectedIndex = document.getElementById("input_user_gender").selectedIndex;
+        var user_gender = document.getElementById("input_user_gender").options[selectedIndex].value;
+        var user_education = getCheckedCheckBoxes();
         var params = {
             "nickname": user_name,
             "numberPhone": user_phone,
@@ -110,7 +119,9 @@ function insertUser() {
             "aboutInf": user_about,
             "studyGroup": user_group,
             "hobbyName": user_hobby_name,
-            "hobbyContent": user_hobby_content
+            "hobbyContent": user_hobby_content,
+            "gender": user_gender,
+            "education": user_education
         };
         xhr.send(JSON.stringify(params));
         xhr.onload = (e) => {
@@ -140,6 +151,23 @@ function insertUser() {
             alert("Неккоректная ссылка VK :( \nВведите ссылку в формате: https://vk.com/somebody")
         }
     }
+}
+
+/*
+Получить выбранные checkBoxes
+ */
+function getCheckedCheckBoxes() {
+    var checkboxes = document.getElementsByClassName('checkbox');
+    var checkboxesChecked = "";
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            if (checkboxesChecked !== "") {
+                checkboxesChecked += ", ";
+            }
+            checkboxesChecked += checkboxes[i].value;
+        }
+    }
+    return checkboxesChecked;
 }
 
 /*
@@ -198,6 +226,7 @@ function checkNonEmptyData() {
         document.getElementById("input_user_about").value.trim() !== "" &&
         document.getElementById("input_user_group").value.trim() !== "" &&
         document.getElementById("input_user_hobby_name").value.trim() !== "" &&
+        document.querySelectorAll('input[type=checkbox]:checked').length !== 0 &&
         document.getElementById("input_user_hobby_content").value.trim() !== "") {
         return true;
     }

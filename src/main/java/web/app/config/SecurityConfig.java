@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -14,12 +15,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
         http
                 .authorizeRequests().antMatchers("/**").permitAll()
-                .antMatchers("/").permitAll()
                 .antMatchers("/csrf").permitAll()
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/webjars/springfox-swagger-ui/**").permitAll();
+                .antMatchers("/webjars/springfox-swagger-ui/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .successForwardUrl("/user.html")
+                .permitAll();
     }
 }

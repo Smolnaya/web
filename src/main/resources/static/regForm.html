@@ -38,6 +38,21 @@
         <label>Расскажите о своем хобби</label>
         <textarea id="input_user_hobby_content"></textarea>
 
+        <label>Образование</label><br>
+        <label class="checkbox_label"><input value="основное общее образование" class="checkbox" type="checkbox"><div class="checkbox_text">основное общее образование</div></label>
+        <label class="checkbox_label"><input value="среднее общее образование" class="checkbox" type="checkbox"><div class="checkbox_text">среднее общее образование</div></label>
+        <label class="checkbox_label"><input value="среднее профессиональное образование" class="checkbox" type="checkbox"><div class="checkbox_text">среднее профессиональное образование</div></label>
+        <label class="checkbox_label"><input value="высшее образование - бакалавриат" class="checkbox" type="checkbox"><div class="checkbox_text">высшее образование - бакалавриат</div></label>
+        <label class="checkbox_label"><input value="высшее образование - специалитет/магистратура" class="checkbox" type="checkbox"><div class="checkbox_text">высшее образование - специалитет, магистратура</div></label>
+        <label class="checkbox_label"><input value="высшее образование - подготовка кадров высшей квалификации" class="checkbox" type="checkbox"><div class="checkbox_text">высшее образование - подготовка кадров высшей квалификации</div></label>
+        <label class="checkbox_label"><input value="другое" class="checkbox" type="checkbox"><div class="checkbox_text">другое</div></label><br>
+
+        <label>Пол</label><br>
+        <select id="input_user_gender">
+            <option value="Женщина">Женщина</option>
+            <option value="Мужчина">Мужчина</option>
+        </select><br>
+
         <input type="button" value="Отправить" onClick="insertUser()">
 
         <input type="button" value="Просмотр пользователей" onclick="window.location='user.html'">
