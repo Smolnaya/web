@@ -1,5 +1,6 @@
 package web.app.services;
 
+import web.app.dao.DbSqlite;
 import web.app.dao.model.User;
 
 import java.util.ArrayList;
@@ -12,18 +13,34 @@ import java.util.regex.Pattern;
 
 public class CheckDataService {
     private Logger log = Logger.getLogger(getClass().getName());
+    private DbSqlite dbSqlite = new DbSqlite();
 
     public List<String> checkInputData(User user) {
         List<String> errors = new ArrayList<>();
-        if(!checkInputNumber(user.getNumberPhone()).isEmpty()) errors.add(checkInputNumber(user.getNumberPhone()));
-        if(!checkInputBirth(user.getBirthday()).isEmpty()) errors.add(checkInputBirth(user.getBirthday()));
-        if(!checkInputMail(user.getElMail()).isEmpty()) errors.add(checkInputMail(user.getElMail()));
-        if(!checkInputVk(user.getVk()).isEmpty()) errors.add(checkInputVk(user.getVk()));
-        if(!checkNonEmptyData(user.getNickname(), user.getAboutInf(), user.getStudyGroup(),
-                user.getHobbyName(), user.getHobbyContent(), user.getEducation()).isEmpty())
-            errors.addAll(checkNonEmptyData(user.getNickname(), user.getAboutInf(), user.getStudyGroup(),
-                user.getHobbyName(), user.getHobbyContent(), user.getEducation()));
+        if (!checkInputNumber(user.getNumberPhone()).isEmpty()) errors.add(checkInputNumber(user.getNumberPhone()));
+        if (!checkInputBirth(user.getBirthday()).isEmpty()) errors.add(checkInputBirth(user.getBirthday()));
+        if (!checkInputMail(user.getElMail()).isEmpty()) errors.add(checkInputMail(user.getElMail()));
+        if (!checkInputVk(user.getVk()).isEmpty()) errors.add(checkInputVk(user.getVk()));
+        if (!checkNonEmptyData( user.getNickname(), user.getAboutInf(),
+                                user.getStudyGroup(), user.getHobbyName(),
+                                user.getHobbyContent(), user.getEducation(),
+                                user.getPassword()).isEmpty()) {
+            errors.addAll(checkNonEmptyData(user.getNickname(), user.getAboutInf(),
+                                            user.getStudyGroup(), user.getHobbyName(),
+                                            user.getHobbyContent(),user.getEducation(),
+                                            user.getPassword()));
+        }
+
+        if (!checkNameExisting(user.getNickname()).isEmpty()) errors.add(checkNameExisting(user.getNickname()));
         return errors;
+    }
+
+    public String checkNameExisting(String name) {
+        String error = new String();
+        if (dbSqlite.isNameExistRequest(name)) {
+            error = "Данное имя уже существует";
+        }
+        return error;
     }
 
     public String checkInputNumber(String numberPhone) {
@@ -71,14 +88,16 @@ public class CheckDataService {
         return error;
     }
 
-    public List<String> checkNonEmptyData(String name, String about, String group, String hobby_name, String hobby_content, String education) {
+    public List<String> checkNonEmptyData(String name, String about, String group, String hobby_name,
+                                          String hobby_content, String education, String password) {
         List<String> errors = new ArrayList<>();
-        if (name == null || name.trim().isEmpty())  errors.add("Имя не указано");
+        if (name == null || name.trim().isEmpty()) errors.add("Имя не указано");
         if (about == null || about.trim().isEmpty()) errors.add("Информация о себе не заполнена");
         if (group == null || group.trim().isEmpty()) errors.add("Номер группы не указан");
         if (hobby_name == null || hobby_name.trim().isEmpty()) errors.add("Название хобби не указано");
         if (hobby_content == null || hobby_content.trim().isEmpty()) errors.add("Информация о хобби не заполнена");
         if (education == null || education.trim().isEmpty()) errors.add("Информация об образовании не заполнена");
+        if (password == null || password.trim().isEmpty()) errors.add("Пароль не заполнен");
         return errors;
     }
 }

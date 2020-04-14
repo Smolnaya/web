@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Страница пользователя</title>
     <link rel="stylesheet" href="css/user.css"/>
-    <script src="js/script.js"></script>
+    <script src="js/userJS.js"></script>
 </head>
-<body onload="init()">
+<body>
 <div id="wrapper">
     <div id="left_header">
         <p id="user_name"></p>
@@ -39,9 +39,7 @@
     </div>
     <div class="clearfix"></div>
     <div id="footer">
-        <input id="previuos" type="button" onclick="getPreviousUser()" value="Предыдущий">
-        <input id="next" type="button" onclick="getNextUser()" value="Следующий"><br>
-        <input id="regButton" type="button" value="Регистрация" onclick="window.location='regForm.html'">
+        <input id="regButton" type="button" value="Выйти" onclick="window.location='index.html'">
     </div>
 </div>
 </body>

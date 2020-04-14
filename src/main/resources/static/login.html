@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <title>Войти</title>
+    <link rel="stylesheet" href="css/generalStyle.css"/>
+    <script src="js/loginJS.js"></script>
+</head>
+<body>
+<form class="forma" id="forma" onsubmit="false">
+    <div class="form-inner">
+        <label>Имя: </label>
+        <input type="text" id="input_user_name">
+
+        <label>Пароль: </label>
+        <input type="password" id="input_user_password">
+
+        <input type="button" id="button" value="Войти" onclick="checkData()">
+        <input type="button" value="Регистрация" onclick="window.location='registration.html'">
+    </div>
+</form>
+</body>
+</html>

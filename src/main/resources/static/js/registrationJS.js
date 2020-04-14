@@ -1,97 +1,3 @@
-function init() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "api/select/first/user");
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.onload = (e) => {
-        var user = JSON.parse(e.target.response),
-            userDataId = user.id,
-            userDataName = user.nickname,
-            userDataNumber = user.numberPhone,
-            userDataBirth = user.birthday,
-            userDataMail = user.elMail,
-            userDataVk = user.vk,
-            userDataAbout = user.aboutInf,
-            userDataGroup = user.studyGroup,
-            userDataHobbyName = user.hobbyName,
-            userDataGroupHobbyContent = user.hobbyContent;
-        document.getElementById("user_id").textContent = userDataId;
-        document.getElementById("user_name").textContent = userDataName;
-        document.getElementById("user_phone").textContent = userDataNumber;
-        document.getElementById("user_birth").textContent = userDataBirth;
-        document.getElementById("user_mail").textContent = userDataMail;
-        document.getElementById("user_vk").href = userDataVk;
-        document.getElementById("user_about").textContent = userDataAbout;
-        document.getElementById("user_group").textContent = userDataGroup;
-        document.getElementById("user_hobby_name").textContent = userDataHobbyName;
-        document.getElementById("user_hobby_content").textContent = userDataGroupHobbyContent;
-        document.getElementById("user_gender").textContent = user.gender;
-        document.getElementById("user_education").textContent = user.education;
-    };
-    xhr.send();
-}
-
-/*
-Следующий пользователь
- */
-function getNextUser() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "api/select/next/user");
-    xhr.setRequestHeader("Content-type", "application/json");
-    var user_id = document.getElementById("user_id").textContent;
-    var params = {"id": user_id};
-    xhr.send(JSON.stringify(params));
-    xhr.onload = (e) => {
-        var user = JSON.parse(e.target.response);
-        if (user.id != null) {
-            document.getElementById("user_id").textContent = user.id;
-            document.getElementById("user_name").textContent = user.nickname;
-            document.getElementById("user_phone").textContent = user.numberPhone;
-            document.getElementById("user_birth").textContent = user.birthday;
-            document.getElementById("user_mail").textContent = user.elMail;
-            document.getElementById("user_vk").href = user.vk;
-            document.getElementById("user_about").textContent = user.aboutInf;
-            document.getElementById("user_group").textContent = user.studyGroup;
-            document.getElementById("user_hobby_name").textContent = user.hobbyName;
-            document.getElementById("user_hobby_content").textContent = user.hobbyContent;
-            document.getElementById("user_gender").textContent = user.gender;
-            document.getElementById("user_education").textContent = user.education;
-        } else {
-            alert("Конец списка пользователей");
-        }
-    };
-}
-
-/*
-Предыдущий пользователь
- */
-function getPreviousUser() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "api/select/previous/user");
-    xhr.setRequestHeader("Content-type", "application/json");
-    var user_id = document.getElementById("user_id").textContent;
-    var params = {"id": user_id};
-    xhr.send(JSON.stringify(params));
-    xhr.onload = (e) => {
-        var user = JSON.parse(e.target.response);
-        if (user.id != null) {
-            document.getElementById("user_id").textContent = user.id;
-            document.getElementById("user_name").textContent = user.nickname;
-            document.getElementById("user_phone").textContent = user.numberPhone;
-            document.getElementById("user_birth").textContent = user.birthday;
-            document.getElementById("user_mail").textContent = user.elMail;
-            document.getElementById("user_vk").href = user.vk;
-            document.getElementById("user_about").textContent = user.aboutInf;
-            document.getElementById("user_group").textContent = user.studyGroup;
-            document.getElementById("user_hobby_name").textContent = user.hobbyName;
-            document.getElementById("user_hobby_content").textContent = user.hobbyContent;
-            document.getElementById("user_gender").textContent = user.gender;
-            document.getElementById("user_education").textContent = user.education;
-        } else {
-            alert("Начало списка пользователей");
-        }
-    };
-}
-
 /*Добавить пользователя в БД*/
 function insertUser() {
     if (checkNonEmptyData() && checkInputNumber() && checkInputBirth() && checkInputMail() && checkInputVk()) {
@@ -110,6 +16,8 @@ function insertUser() {
         var selectedIndex = document.getElementById("input_user_gender").selectedIndex;
         var user_gender = document.getElementById("input_user_gender").options[selectedIndex].value;
         var user_education = getCheckedCheckBoxes();
+        var user_password = document.getElementById("input_user_password").value;
+        var user_role = "user";
         var params = {
             "nickname": user_name,
             "numberPhone": user_phone,
@@ -121,13 +29,15 @@ function insertUser() {
             "hobbyName": user_hobby_name,
             "hobbyContent": user_hobby_content,
             "gender": user_gender,
-            "education": user_education
+            "education": user_education,
+            "password": user_password,
+            "role": user_role
         };
         xhr.send(JSON.stringify(params));
         xhr.onload = (e) => {
             if (xhr.status === 200) {
                 alert("Вы зарегистрированы!");
-                document.getElementById("forma").submit();
+                document.location.href = "user.html?name=" + user_name;
             } else if (xhr.status === 400) {
                 alert("Не верные данные" + e.target.response);
             } else {
@@ -226,7 +136,8 @@ function checkNonEmptyData() {
         document.getElementById("input_user_about").value.trim() !== "" &&
         document.getElementById("input_user_group").value.trim() !== "" &&
         document.getElementById("input_user_hobby_name").value.trim() !== "" &&
-        document.querySelectorAll('input[type=checkbox]:checked').length !== 0 &&
+        document.querySelectorAll("input[type=checkbox]:checked").length !== 0 &&
+        document.getElementById("input_user_password").value.trim() !== "" &&
         document.getElementById("input_user_hobby_content").value.trim() !== "") {
         return true;
     }

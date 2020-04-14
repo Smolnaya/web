@@ -1,11 +1,11 @@
 package web.app.controllers;
 
 import web.app.api.request.UserByIdRequest;
+import web.app.api.request.UserByNameRequest;
+import web.app.api.request.UserByPasswordRequest;
 import web.app.dao.DbSqlite;
 import web.app.dao.model.User;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -56,9 +56,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "Добавить пользователя")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = Boolean.class),
-            @ApiResponse(code = 400, message = "Ошибка входных данных", response = List.class)})
     @RequestMapping(value = "insert/user", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> checkUser(@RequestBody User user) {
@@ -69,5 +66,43 @@ public class UserController {
         if (errors.isEmpty()) {
             return new ResponseEntity<>(dbSqlite.insertUser(user), headers, HttpStatus.OK);
         } else return new ResponseEntity<>(errors, headers, HttpStatus.BAD_REQUEST);
+    }
+
+    @ApiOperation(value = "Есть ли данное имя пользователя в бд")
+    @RequestMapping(value = "is/name/exist", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> nameExist(String name) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        CheckDataService checkDataService = new CheckDataService();
+        String error = checkDataService.checkNameExisting(name);
+        String noError = "Такого имени еще нет";
+        if (error.isEmpty()) {
+            return new ResponseEntity<>(noError, headers, HttpStatus.OK);
+        } else return new ResponseEntity<>(error, headers, HttpStatus.BAD_REQUEST);
+    }
+
+    @ApiOperation(value = "Зарегистрирован ли пользователь")
+    @RequestMapping(value = "is/my/user", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> isMyUser(@RequestBody UserByPasswordRequest user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        CheckDataService checkDataService = new CheckDataService();
+        String error = checkDataService.checkNameExisting(user.getName());
+        if (!error.isEmpty()) {
+            if (dbSqlite.isMyUser(user.getName(), user.getPassword())) {
+                return new ResponseEntity<>("Пользователь найден", headers, HttpStatus.OK);
+            } else return new ResponseEntity<>("Неверный пароль", headers, HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity<>("Пользователь не найден", headers, HttpStatus.NOT_FOUND);
+    }
+
+    @ApiOperation(value = "Пользователь")
+    @RequestMapping(value = "select/user", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> selectUser(@RequestBody UserByNameRequest user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<>(dbSqlite.selectUser(user.getName()), headers, HttpStatus.OK);
     }
 }
