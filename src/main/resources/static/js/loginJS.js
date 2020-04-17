@@ -1,11 +1,11 @@
 function checkData() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("POST", "api/is/my/user");
     xhr.setRequestHeader("Content-type", "application/json");
 
-    var user_name = document.getElementById("input_user_name").value;
-    var user_password = document.getElementById("input_user_password").value;
-    var params = {
+    let user_name = document.getElementById("input_user_name").value;
+    let user_password = document.getElementById("input_user_password").value;
+    let params = {
         "name": user_name,
         "password": user_password
     };

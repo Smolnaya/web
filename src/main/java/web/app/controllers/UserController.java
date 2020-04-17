@@ -1,9 +1,11 @@
 package web.app.controllers;
 
+import web.app.api.request.MessageRequest;
 import web.app.api.request.UserByIdRequest;
 import web.app.api.request.UserByNameRequest;
 import web.app.api.request.UserByPasswordRequest;
 import web.app.dao.DbSqlite;
+import web.app.dao.model.Message;
 import web.app.dao.model.User;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpHeaders;
@@ -104,5 +106,58 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(dbSqlite.selectUser(user.getName()), headers, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Найти имя пользователя")
+    @RequestMapping(value = "find/user/name", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> selectUserName(@RequestBody UserByNameRequest user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Boolean resp = dbSqlite.isNameExistRequest(user.getName());
+        if (resp) return new ResponseEntity<>(resp, headers, HttpStatus.OK);
+        else return new ResponseEntity<>(resp, headers, HttpStatus.NOT_FOUND);
+    }
+
+    @ApiOperation(value = "Добавить сообщение")
+    @RequestMapping(value = "insert/message", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> insertMessage(@RequestBody Message message) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<>(dbSqlite.insertMessage(message), headers, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Получить все сообщения от")
+    @RequestMapping(value = "select/all/messages", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Message>> selectAllMessages(@RequestBody MessageRequest messageRequest) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        List<Message> messageList = dbSqlite.selectAllMessages(messageRequest.getSender(), messageRequest.getRecipient());
+        if (!messageList.isEmpty()) return new ResponseEntity<>(messageList, headers, HttpStatus.OK);
+        else return new ResponseEntity<>(new ArrayList<>(), headers, HttpStatus.NOT_FOUND);
+    }
+
+    @ApiOperation(value = "Найти чаты")
+    @RequestMapping(value = "select/chats", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<String>> selectChats(@RequestBody MessageRequest messageRequest) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        List<String> chatList = dbSqlite.selectChats(messageRequest.getSender());
+        if (!chatList.isEmpty()) return new ResponseEntity<>(chatList, headers, HttpStatus.OK);
+        else return new ResponseEntity<>(new ArrayList<>(), headers, HttpStatus.NOT_FOUND);
+    }
+
+    @ApiOperation(value = "Есть ли новые сообщения")
+    @RequestMapping(value = "check/new/messages", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> checkNewMessages(@RequestBody MessageRequest messageRequest) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        if (dbSqlite.isNewMessage(messageRequest.getSender(), messageRequest.getRecipient(), messageRequest.getMessagesAmount()))
+            return new ResponseEntity<>(true, headers, HttpStatus.OK);
+        else return new ResponseEntity<>(false, headers, HttpStatus.NO_CONTENT);
     }
 }

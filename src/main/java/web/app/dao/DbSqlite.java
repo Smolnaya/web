@@ -1,13 +1,16 @@
 package web.app.dao;
 
+import web.app.dao.model.Message;
 import web.app.dao.model.User;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.StreamHandler;
 
 @Service
 public class DbSqlite implements InitializingBean {
@@ -19,6 +22,12 @@ public class DbSqlite implements InitializingBean {
     private final String selectName = "select NAME from USER where NAME = '%s'";
     private final String selectUser = "select * from USER where NAME = '%s'";
     private final String selectPassword = "select PASSWORD from USER where NAME = '%s'";
+    private final String insertMessage = "insert into MESSAGE (SENDER, RECIPIENT, MESSAGE, SENDING_TIME) VALUES ('%s', '%s', '%s', '%s')";
+    private final String selectAllMessages = "select * from MESSAGE where (SENDER = '%s' or SENDER = '%s') and " +
+            "(RECIPIENT = '%s' or RECIPIENT = '%s') order by SENDING_TIME";
+    private final String selectChats = "select distinct SENDER, RECIPIENT from MESSAGE where SENDER = '%s' or RECIPIENT = '%s'";
+    private final String countMessages = "select count(*) from MESSAGE  where (SENDER = '%s' or SENDER = '%s') and " +
+            "(RECIPIENT = '%s' or RECIPIENT = '%s')";
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -46,6 +55,7 @@ public class DbSqlite implements InitializingBean {
     }
 
     public Boolean isNameExistRequest(String name) {
+        log.log(Level.INFO, "Запрос: " + String.format(selectName, name));
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
             ResultSet resultSet = stat.executeQuery(String.format(selectName, name));
@@ -57,6 +67,7 @@ public class DbSqlite implements InitializingBean {
     }
 
     public Boolean isMyUser(String name, String password) {
+        log.log(Level.INFO, "Запрос: " + String.format(selectPassword, name));
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
             ResultSet resultSet = stat.executeQuery(String.format(selectPassword, name));
@@ -68,6 +79,7 @@ public class DbSqlite implements InitializingBean {
     }
 
     public User selectUser(String name) {
+        log.log(Level.INFO, "Запрос: " + String.format(selectUser, name));
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
             ResultSet resultSet = stat.executeQuery(String.format(selectUser, name));
@@ -109,6 +121,7 @@ public class DbSqlite implements InitializingBean {
     }
 
     public User getUser(String query, int id) {
+        log.log(Level.INFO, "Запрос: " + String.format(query, id));
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
             ResultSet resultSet = stat.executeQuery(String.format(query, id));
@@ -144,6 +157,70 @@ public class DbSqlite implements InitializingBean {
                     user.getHobbyContent(), user.getGender(), user.getEducation(), user.getPassword(), user.getRole()));
         } catch (SQLException ex) {
             log.log(Level.WARNING, "Не удалось добавить пользователя", ex);
+            return false;
+        }
+    }
+
+    public Boolean insertMessage(Message message) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+             Statement stat = conn.createStatement()) {
+            return stat.execute(String.format(insertMessage, message.getSender(), message.getRecipient(),
+                    message.getMessage(), message.getTimeSending()));
+        } catch (SQLException ex) {
+            log.log(Level.WARNING, "Не удалось добавить сообщение", ex);
+            return false;
+        }
+    }
+
+    public List<Message> selectAllMessages(String sender, String recipient) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+             Statement stat = conn.createStatement()) {
+            ResultSet resultSet = stat.executeQuery(String.format(selectAllMessages, sender, recipient, sender, recipient));
+            List<Message> messageList = new ArrayList<>();
+            if (resultSet.next()) {
+                do {
+                    Message message = new Message();
+                    message.setSender(resultSet.getString("sender"));
+                    message.setRecipient(resultSet.getString("recipient"));
+                    message.setMessage(resultSet.getString("message"));
+                    message.setSendingTime(resultSet.getDate("sending_time"));
+                    messageList.add(message);
+                }
+                while (resultSet.next());
+                return messageList;
+            } else return new ArrayList<>();
+        } catch (SQLException ex) {
+            log.log(Level.WARNING, "Не удалось получить сообщения", ex);
+            return new ArrayList<>();
+        }
+    }
+
+    public List<String> selectChats(String sender) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+             Statement stat = conn.createStatement()) {
+            ResultSet resultSet = stat.executeQuery(String.format(selectChats, sender, sender));
+            HashSet<String> hashSet = new HashSet<>();
+            if (resultSet.next()) {
+                do {
+                    hashSet.add(resultSet.getString("sender"));
+                    hashSet.add(resultSet.getString("recipient"));
+                }
+                while (resultSet.next());
+                return new ArrayList<>(hashSet);
+            } else return new ArrayList<>();
+        } catch (SQLException ex) {
+            log.log(Level.WARNING, "Не удалось получить сообщения", ex);
+            return new ArrayList<>();
+        }
+    }
+
+    public Boolean isNewMessage(String sender, String recipient, int messagesAmount) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+             Statement stat = conn.createStatement()) {
+            ResultSet resultSet = stat.executeQuery(String.format(countMessages, sender, recipient, sender, recipient));
+            return resultSet.getInt("count(*)") > messagesAmount;
+        } catch (SQLException ex) {
+            log.log(Level.WARNING, "Не удалось получить сообщения", ex);
             return false;
         }
     }
