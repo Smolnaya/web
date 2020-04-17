@@ -110,20 +110,9 @@ function openChat(evt, recipient, user) {
     document.getElementById(recipient).style.display = "block";
     evt.currentTarget.className += " active";
 
-    // getMessages(recipient,user);
     let username = document.getElementById("user_name").textContent;
     setInterval(getMessages, 2000, recipient, username);
-
-    // if (document.getElementById("dialog_" + recipient).hasChildNodes()) {
-    //     let messagesAmount = document.getElementById("dialog_" + recipient).childElementCount;
-    //     setInterval(update, 2000, recipient, user, messagesAmount);
-    // }
-    // setInterval(checkP, 2000, recipient, user)
 }
-
-// function checkP(recipient, user) {
-//
-// }
 
 function update(recipient, user, messagesAmount) {
     let xhr = new XMLHttpRequest();
