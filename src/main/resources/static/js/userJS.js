@@ -21,7 +21,6 @@ window.onload = function selectUser() {
         document.getElementById("user_education").textContent = user.education;
     };
     setInterval(getChats, 5000, user);
-    // getChats(user);
 };
 
 function getChats(user) {
@@ -35,7 +34,7 @@ function getChats(user) {
         chats = JSON.parse(e.target.response);
         for (let i = 0; i < chats.length; i++) {
             if (checkUserName(chats[i]).length === 0 ) {
-                createChat(chats[i], user);
+                createChat(chats[i]);
             }
         }
     }
@@ -61,12 +60,12 @@ function findUser() {
     } else alert(errors);
 }
 
-function createChat(recipient, user) {
+function createChat(recipient) {
     let tab = document.getElementById("tab");
     let buttons = document.getElementById("buttons");
     let tablink = document.createElement("button");
     tablink.setAttribute("class", "tablinks");
-    tablink.setAttribute("onclick", "openChat(event, '" + recipient + "', '" + user + "')");
+    tablink.setAttribute("onclick", "openChat(event, '" + recipient + "')");
     tablink.innerHTML = recipient;
     buttons.append(tablink);
 
@@ -97,7 +96,7 @@ function createChat(recipient, user) {
 
 }
 
-function openChat(evt, recipient, user) {
+function openChat(evt, recipient) {
     let tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for ( let i = 0; i < tabcontent.length; i++) {
