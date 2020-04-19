@@ -74,6 +74,10 @@ textarea {
     background: #ffccccd4;
 }
 
+.form-inner input[type="submit"] {
+    background: #ffccccd4;
+}
+
 .checkbox_label input {
     position: absolute;
     z-index: -1;

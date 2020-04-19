@@ -13,11 +13,12 @@
     </div>
     <div id="right_header">
         <a href="" id="user_vk"><img src="images/vk_icon.png" alt="VK"></a>
+        <input id="regButton" type="button" value="Выйти" onclick="window.location='index.html'">
     </div>
     <div class="clearfix"></div>
     <div id="sidebar">
-        <label>ID:</label>
-        <p id="user_id"></p>
+        <label>Nickname:</label>
+        <p id="user_nickname"></p>
         <label>Номер группы:</label>
         <p id="user_group"></p>
         <label>Почта:</label>
@@ -38,15 +39,11 @@
         <p id="user_education"></p>
     </div>
     <div id="chat">
-        <label>Начать чат с <input type="text" id="input_recipient"></label>
-        <input type="button" value="Найти" onclick="findUser()"><br>
+        <label>Начать чат с <input type="text" id="input_recipient" placeholder="nickname"></label>
+        <input type="button" id="find_user" value="Найти" onclick="findUser()"><br>
         <div id="tab">
             <div id="buttons"></div>
         </div>
-    </div>
-    <div class="clearfix"></div>
-    <div id="footer">
-        <input id="regButton" type="button" value="Выйти" onclick="window.location='index.html'">
     </div>
 </div>
 </body>

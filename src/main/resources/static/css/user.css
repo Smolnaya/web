@@ -90,10 +90,6 @@ body {
     background: linear-gradient(to top, #9999cc50, #ffccccd4);
 }
 
-/*#buttons {*/
-/*    overflow-x: auto;*/
-/*}*/
-
 #chat button {
     background: #a8a8e3;
 }
@@ -145,6 +141,7 @@ body {
     border-style: inset;
     height: 270px;
     overflow-y: auto;
+    float: bottom;
 }
 
 .dialog p {
@@ -156,6 +153,7 @@ body {
     background-color: rgba(162, 162, 222, 0.51);
     border-width: 1px;
     border-radius: 20px;
+    border-bottom-right-radius: 0;
 }
 
 .incoming_message {
@@ -163,6 +161,7 @@ body {
     background-color: rgba(148, 147, 245, 0.67);
     border-width: 1px;
     border-radius: 20px;
+    border-bottom-left-radius: 0;
 }
 
 #input_recipient  {

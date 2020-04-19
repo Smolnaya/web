@@ -1,11 +1,10 @@
 package web.app.dao.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class User {
     private Integer id;
-    private String nickname;
+    private String name;
     private String numberPhone;
     private Date birthday;
     private String elMail;
@@ -18,6 +17,15 @@ public class User {
     private String education;
     private String password;
     private String role;
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getPassword() {
         return password;
@@ -83,12 +91,12 @@ public class User {
         this.id = id;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getName() {
+        return name;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getBirthday() {

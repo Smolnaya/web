@@ -1,5 +1,6 @@
 package web.app.services;
 
+import org.springframework.stereotype.Service;
 import web.app.dao.DbSqlite;
 import web.app.dao.model.User;
 
@@ -11,34 +12,35 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Service
 public class CheckDataService {
     private Logger log = Logger.getLogger(getClass().getName());
     private DbSqlite dbSqlite = new DbSqlite();
 
     public List<String> checkInputData(User user) {
         List<String> errors = new ArrayList<>();
-        if (!checkInputNumber(user.getNumberPhone()).isEmpty()) errors.add(checkInputNumber(user.getNumberPhone()));
-        if (!checkInputBirth(user.getBirthday()).isEmpty()) errors.add(checkInputBirth(user.getBirthday()));
-        if (!checkInputMail(user.getElMail()).isEmpty()) errors.add(checkInputMail(user.getElMail()));
-        if (!checkInputVk(user.getVk()).isEmpty()) errors.add(checkInputVk(user.getVk()));
-        if (!checkNonEmptyData( user.getNickname(), user.getAboutInf(),
-                                user.getStudyGroup(), user.getHobbyName(),
-                                user.getHobbyContent(), user.getEducation(),
-                                user.getPassword()).isEmpty()) {
-            errors.addAll(checkNonEmptyData(user.getNickname(), user.getAboutInf(),
-                                            user.getStudyGroup(), user.getHobbyName(),
-                                            user.getHobbyContent(),user.getEducation(),
-                                            user.getPassword()));
+        if (!checkNonEmptyData(user.getName(), user.getNumberPhone(), user.getBirthday(), user.getElMail(),
+                user.getVk(), user.getAboutInf(), user.getStudyGroup(), user.getHobbyName(),
+                user.getHobbyContent(), user.getEducation(), user.getPassword(),
+                user.getNickname()).isEmpty()) {
+            errors.addAll(checkNonEmptyData(user.getName(), user.getNumberPhone(), user.getBirthday(), user.getElMail(),
+                    user.getVk(), user.getAboutInf(), user.getStudyGroup(), user.getHobbyName(),
+                    user.getHobbyContent(), user.getEducation(), user.getPassword(),
+                    user.getNickname()));
+        } else {
+            if (!checkInputNumber(user.getNumberPhone()).isEmpty()) errors.add(checkInputNumber(user.getNumberPhone()));
+            if (!checkInputBirth(user.getBirthday()).isEmpty()) errors.add(checkInputBirth(user.getBirthday()));
+            if (!checkInputMail(user.getElMail()).isEmpty()) errors.add(checkInputMail(user.getElMail()));
+            if (!checkInputVk(user.getVk()).isEmpty()) errors.add(checkInputVk(user.getVk()));
+            if (!checkNicknameExisting(user.getName()).isEmpty()) errors.add(checkNicknameExisting(user.getName()));
         }
-
-        if (!checkNameExisting(user.getNickname()).isEmpty()) errors.add(checkNameExisting(user.getNickname()));
         return errors;
     }
 
-    public String checkNameExisting(String name) {
+    public String checkNicknameExisting(String name) {
         String error = new String();
-        if (dbSqlite.isNameExistRequest(name)) {
-            error = "Данное имя уже существует";
+        if (dbSqlite.isNicknameExistRequest(name)) {
+            error = "Данный никнейм уже занят";
         }
         return error;
     }
@@ -88,16 +90,23 @@ public class CheckDataService {
         return error;
     }
 
-    public List<String> checkNonEmptyData(String name, String about, String group, String hobby_name,
-                                          String hobby_content, String education, String password) {
+    public List<String> checkNonEmptyData(String name, String phoneNumber, Date birthday, String mail,
+                                          String vk, String about, String group, String hobby_name,
+                                          String hobby_content, String education, String password,
+                                          String nickname) {
         List<String> errors = new ArrayList<>();
         if (name == null || name.trim().isEmpty()) errors.add("Имя не указано");
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) errors.add("Номер телефона не указан");
+        if (birthday.toString() == null || birthday.toString().isEmpty()) errors.add("Дата рождения не указана");
+        if (mail == null || mail.trim().isEmpty()) errors.add("Почта не указана");
+        if (vk == null || vk.trim().isEmpty()) errors.add("Ссылка на vk не указана");
         if (about == null || about.trim().isEmpty()) errors.add("Информация о себе не заполнена");
         if (group == null || group.trim().isEmpty()) errors.add("Номер группы не указан");
         if (hobby_name == null || hobby_name.trim().isEmpty()) errors.add("Название хобби не указано");
         if (hobby_content == null || hobby_content.trim().isEmpty()) errors.add("Информация о хобби не заполнена");
         if (education == null || education.trim().isEmpty()) errors.add("Информация об образовании не заполнена");
         if (password == null || password.trim().isEmpty()) errors.add("Пароль не заполнен");
+        if (nickname == null || nickname.trim().isEmpty()) errors.add("Никнейм не указан");
         return errors;
     }
 }
