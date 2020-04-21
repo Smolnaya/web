@@ -4,21 +4,24 @@
     <meta charset="UTF-8">
     <title>Страница пользователя</title>
     <link rel="stylesheet" href="css/user.css"/>
-    <script src="js/userJS.js"></script>
+    <script src="js/admin.js"></script>
 </head>
-<body>
+<body onload="init()">
 <div id="wrapper">
     <div id="left_header">
         <p id="user_name"></p>
     </div>
     <div id="right_header">
         <a href="" id="user_vk"><img src="images/vk_icon.png" alt="VK"></a>
-        <input id="backButton" type="button" value="Выйти" onclick="window.location='index.html'">
     </div>
     <div class="clearfix"></div>
     <div id="sidebar">
-        <label>Nickname:</label>
+        <label>ID:</label>
+        <p id="user_id"></p>
+        <label>Никнейм:</label>
         <p id="user_nickname"></p>
+        <label>Роль:</label>
+        <p id="user_role"></p>
         <label>Номер группы:</label>
         <p id="user_group"></p>
         <label>Почта:</label>
@@ -38,12 +41,11 @@
         <h3>Образование</h3>
         <p id="user_education"></p>
     </div>
-    <div id="chat">
-        <label>Начать чат с <input type="text" id="input_recipient" placeholder="nickname"></label>
-        <input type="button" id="find_user" value="Найти" onclick="findUser()"><br>
-        <div id="tab">
-            <div id="buttons"></div>
-        </div>
+    <div class="clearfix"></div>
+    <div id="footer">
+        <input id="previuos" type="button" onclick="getPreviousUser()" value="Предыдущий">
+        <input id="next" type="button" onclick="getNextUser()" value="Следующий"><br>
+        <input id="backButton" type="button" value="Вернуться на свою страницу" onclick="window.location='user.html'">
     </div>
 </div>
 </body>

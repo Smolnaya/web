@@ -45,6 +45,7 @@ body {
     padding: 20px 0 0 20px;
     border-radius: 20px;
     background: linear-gradient(to top, #9999cc50, #ffccccd4);
+    overflow-y: scroll;
 }
 
 #sidebar label {
@@ -184,12 +185,16 @@ input {
     outline: none;
 }
 
+#userButton {
+    width: 300px;
+}
+
 input[type="button"] {
     background: #a8a8e3;
 }
 
-#regButton {
-    padding: 0 120px;
+#backButton {
+    width: 320px;
 }
 
 .clearfix {

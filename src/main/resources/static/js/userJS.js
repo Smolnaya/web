@@ -3,7 +3,6 @@ window.onload = function selectUserData() {
     xhr.open("POST", "api/user/select/user/data");
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send();
-    let nickname = "";
     xhr.onload = (e) => {
         let user = JSON.parse(e.target.response);
         document.getElementById("user_name").textContent = user.name;
@@ -18,10 +17,24 @@ window.onload = function selectUserData() {
         document.getElementById("user_hobby_content").textContent = user.hobbyContent;
         document.getElementById("user_gender").textContent = user.gender;
         document.getElementById("user_education").textContent = user.education;
+        if(user.role === "admin") {
+            alert("Добро пожаловать на страницу администратора, " + user.name + "!")
+            createAdminPage();
+        }
         setInterval(getChats, 5000, user.nickname);
     };
 
 };
+
+function createAdminPage() {
+    let right_header = document.getElementById("right_header");
+    let input = document.createElement("input");
+    input.setAttribute("type", "button");
+    input.setAttribute("id", "userButton");
+    input.setAttribute("value", "Просмотр пользователей");
+    input.setAttribute("onclick", "window.location='admin.html'");
+    right_header.append(input);
+}
 
 function getChats(nickname) {
     let xhr = new XMLHttpRequest();

@@ -85,8 +85,8 @@ public class DbSqlite implements InitializingBean {
             user.setGender(resultSet.getString("gender"));
             user.setEducation(resultSet.getString("education"));
             user.setNickname(resultSet.getString("nickname"));
-            user.setPassword(resultSet.getString("password"));
             user.setRole(resultSet.getString("role"));
+            user.setPassword(resultSet.getString("password"));
             return user;
         } catch (SQLException ex) {
             log.log(Level.WARNING, "Не удалось выполнить запрос: " + String.format(selectUserData, nickname), ex);
@@ -172,6 +172,52 @@ public class DbSqlite implements InitializingBean {
         } catch (SQLException ex) {
             log.log(Level.WARNING, "Не удалось получить сообщения", ex);
             return false;
+        }
+    }
+
+    /*only admin*/
+    private final String selectFirst = "select * from USER LIMIT 1";
+    private final String selectNext = "select * from USER where ID > %s limit 1";
+    private final String selectPrevious = "select * from USER where ID < %s order by ID desc limit 1";
+
+    public User selectFirstUser() {
+        User user = getUser(selectFirst, 0);
+        return user;
+    }
+
+    public User selectNextUser(int id) {
+        User user = getUser(selectNext, id);
+        return user;
+    }
+
+    public User selectPreviousUser(int id) {
+        User user = getUser(selectPrevious, id);
+        return user;
+    }
+
+    public User getUser(String query, int id) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+             Statement stat = conn.createStatement()) {
+            ResultSet resultSet = stat.executeQuery(String.format(query, id));
+            User user = new User();
+            user.setId(resultSet.getInt("id"));
+            user.setName(resultSet.getString("name"));
+            user.setNickname(resultSet.getString("nickname"));
+            user.setNumberPhone(resultSet.getString("phone_number"));
+            user.setBirthday(resultSet.getDate("birthday"));
+            user.setElMail(resultSet.getString("mail"));
+            user.setVk(resultSet.getString("vk"));
+            user.setAboutInf(resultSet.getString("about"));
+            user.setStudyGroup(resultSet.getString("study_group"));
+            user.setHobbyName(resultSet.getString("hobby_name"));
+            user.setHobbyContent(resultSet.getString("hobby_content"));
+            user.setGender(resultSet.getString("gender"));
+            user.setEducation(resultSet.getString("education"));
+            user.setRole(resultSet.getString("role"));
+            return user;
+        } catch (SQLException ex) {
+            log.log(Level.WARNING, "Не удалось выполнить запрос", ex);
+            return new User();
         }
     }
 }
