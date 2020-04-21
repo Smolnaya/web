@@ -54,9 +54,9 @@ function insertUser() {
                             alert("Повторите попытку");
                         }
                     }
-                } else if (xhr.status === 404) {
-                    alert("Никнейм занят");
                 }
+            } else if (xhr.status === 400) {
+                alert("Никнейм занят");
             }
         };
     }

@@ -32,14 +32,14 @@ public class CheckDataService {
             if (!checkInputBirth(user.getBirthday()).isEmpty()) errors.add(checkInputBirth(user.getBirthday()));
             if (!checkInputMail(user.getElMail()).isEmpty()) errors.add(checkInputMail(user.getElMail()));
             if (!checkInputVk(user.getVk()).isEmpty()) errors.add(checkInputVk(user.getVk()));
-            if (!checkNicknameExisting(user.getName()).isEmpty()) errors.add(checkNicknameExisting(user.getName()));
+            if (!checkNicknameExisting(user.getNickname()).isEmpty()) errors.add(checkNicknameExisting(user.getName()));
         }
         return errors;
     }
 
-    public String checkNicknameExisting(String name) {
+    public String checkNicknameExisting(String nickname) {
         String error = new String();
-        if (dbSqlite.isNicknameExistRequest(name)) {
+        if (dbSqlite.isNicknameExistRequest(nickname)) {
             error = "Данный никнейм уже занят";
         }
         return error;
