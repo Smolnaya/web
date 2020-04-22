@@ -95,10 +95,10 @@ public class DbSqlite implements InitializingBean {
     }
 
     public Boolean insertUser(User user) {
-        log.log(Level.INFO, "Запрос: " + String.format(insertUser,user.getName(), user.getNumberPhone(), user.getTimeBirthday(),
-                                                                        user.getElMail(), user.getVk(), user.getAboutInf(), user.getStudyGroup(), user.getHobbyName(),
-                                                                        user.getHobbyContent(), user.getGender(), user.getEducation(), user.getPassword(),
-                                                                        user.getRole(), user.getNickname()));
+        log.log(Level.INFO, "Запрос: " + String.format(insertUser, user.getName(), user.getNumberPhone(), user.getTimeBirthday(),
+                user.getElMail(), user.getVk(), user.getAboutInf(), user.getStudyGroup(), user.getHobbyName(),
+                user.getHobbyContent(), user.getGender(), user.getEducation(), user.getPassword(),
+                user.getRole(), user.getNickname()));
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
             return stat.execute(String.format(insertUser, user.getName(), user.getNumberPhone(), user.getTimeBirthday(),
@@ -199,22 +199,25 @@ public class DbSqlite implements InitializingBean {
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
              Statement stat = conn.createStatement()) {
             ResultSet resultSet = stat.executeQuery(String.format(query, id));
-            User user = new User();
-            user.setId(resultSet.getInt("id"));
-            user.setName(resultSet.getString("name"));
-            user.setNickname(resultSet.getString("nickname"));
-            user.setNumberPhone(resultSet.getString("phone_number"));
-            user.setBirthday(resultSet.getDate("birthday"));
-            user.setElMail(resultSet.getString("mail"));
-            user.setVk(resultSet.getString("vk"));
-            user.setAboutInf(resultSet.getString("about"));
-            user.setStudyGroup(resultSet.getString("study_group"));
-            user.setHobbyName(resultSet.getString("hobby_name"));
-            user.setHobbyContent(resultSet.getString("hobby_content"));
-            user.setGender(resultSet.getString("gender"));
-            user.setEducation(resultSet.getString("education"));
-            user.setRole(resultSet.getString("role"));
-            return user;
+            if (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setNickname(resultSet.getString("nickname"));
+                user.setNumberPhone(resultSet.getString("phone_number"));
+                user.setBirthday(resultSet.getDate("birthday"));
+                user.setElMail(resultSet.getString("mail"));
+                user.setVk(resultSet.getString("vk"));
+                user.setAboutInf(resultSet.getString("about"));
+                user.setStudyGroup(resultSet.getString("study_group"));
+                user.setHobbyName(resultSet.getString("hobby_name"));
+                user.setHobbyContent(resultSet.getString("hobby_content"));
+                user.setGender(resultSet.getString("gender"));
+                user.setEducation(resultSet.getString("education"));
+                user.setRole(resultSet.getString("role"));
+                return user;
+            }
+            return new User();
         } catch (SQLException ex) {
             log.log(Level.WARNING, "Не удалось выполнить запрос", ex);
             return new User();
