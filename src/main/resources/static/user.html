@@ -13,7 +13,9 @@
     </div>
     <div id="right_header">
         <a href="" id="user_vk"><img src="images/vk_icon.png" alt="VK"></a>
-        <input id="backButton" type="button" value="Выйти" onclick="window.location='index.html'">
+        <form method="post">
+            <input type="submit" formaction="logout" id="backButton" value="Выйти">
+        </form>
     </div>
     <div class="clearfix"></div>
     <div id="sidebar">

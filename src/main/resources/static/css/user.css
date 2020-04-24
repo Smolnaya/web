@@ -194,7 +194,8 @@ input[type="button"] {
 }
 
 #backButton {
-    width: 320px;
+    width: 300px;
+    background: #a8a8e3;
 }
 
 .clearfix {

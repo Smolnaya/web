@@ -17,8 +17,8 @@ window.onload = function selectUserData() {
         document.getElementById("user_hobby_content").textContent = user.hobbyContent;
         document.getElementById("user_gender").textContent = user.gender;
         document.getElementById("user_education").textContent = user.education;
-        if(user.role === "admin") {
-            alert("Добро пожаловать на страницу администратора, " + user.name + "!")
+        if (user.role === "admin") {
+            alert("Добро пожаловать на страницу администратора, " + user.name + "!");
             createAdminPage();
         }
         setInterval(getChats, 5000, user.nickname);
@@ -79,7 +79,7 @@ function createChat(recipient, nickname) {
     let buttons = document.getElementById("buttons");
     let tablink = document.createElement("button");
     tablink.setAttribute("class", "tablinks");
-    tablink.setAttribute("onclick", "openChat(event, '" + recipient + "','" + nickname +"')");
+    tablink.setAttribute("onclick", "openChat(event, '" + recipient + "','" + nickname + "')");
     tablink.innerHTML = recipient;
     buttons.append(tablink);
 
@@ -106,7 +106,7 @@ function createChat(recipient, nickname) {
     inputButton.setAttribute("class", "sending");
     inputButton.setAttribute("type", "button");
     inputButton.setAttribute("value", "Отправить");
-    inputButton.setAttribute("onclick", "send('" + recipient + "','" + nickname +"')");
+    inputButton.setAttribute("onclick", "send('" + recipient + "','" + nickname + "')");
     tabcontent.append(inputButton);
 }
 
